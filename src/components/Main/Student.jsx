@@ -10,6 +10,7 @@ import PropTypes from 'prop-types';
 import Fade from '@material-ui/core/Fade'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import {faUserPlus, faUsers} from '@fortawesome/free-solid-svg-icons';
+import { Link } from 'react-router-dom';
 
 
 
@@ -42,6 +43,10 @@ const styles = theme => ({
 		fontSize: "125%",
 		marginBottom: "0.45em",
 	},
+
+	link: {
+		textDecoration: "none"
+	}
 });
 
 class Student extends React.Component {
@@ -50,7 +55,7 @@ class Student extends React.Component {
 	render() {
 		return (
 			<div>
-				<AppBar position="static" className={this.props.classes.appBar}>
+			<AppBar position="static" className={this.props.classes.appBar}>
 				<Toolbar>
 				<Typography variant="h6" color="inherit" align="center" noWrap>
 					Students
@@ -62,29 +67,33 @@ class Student extends React.Component {
 
 			<Fade in = {true} timeout={2000}>
 			<Grid item sm={7} lg={7} className = {this.props.classes.gridItem}>
-				<Card className={this.props.classes.card}>
-					<CardContent>
-						<Typography component="h1" variant="h3" align="center" color="textPrimary" gutterBottom>
-							<FontAwesomeIcon className={this.props.classes.icon}  component="h1" variant="h1" align="center" icon={faUserPlus}/>
-							<br />
-							Add Student
-						</Typography>
-					</CardContent>
-				</Card>
+				<Link to="/students/add" className={this.props.classes.link}>
+					<Card className={this.props.classes.card}>
+						<CardContent>
+							<Typography component="h1" variant="h3" align="center" color="textPrimary" gutterBottom>
+								<FontAwesomeIcon className={this.props.classes.icon}  component="h1" variant="h1" align="center" icon={faUserPlus}/>
+								<br />
+								Add Student
+							</Typography>
+						</CardContent>
+					</Card>
+				</Link>
 			</Grid>
 			</Fade>
 
 			<Fade in = {true} timeout={4000}>
 				<Grid item sm={7} lg={7} className = {this.props.classes.gridItem}>
-					<Card className={this.props.classes.card}>
-						<CardContent>
-						<Typography component="h1" variant="h3" align="center" color="textPrimary" gutterBottom>
-							<FontAwesomeIcon className={this.props.classes.icon}  component="h1" variant="h1" align="center" icon={faUsers}/>
-							<br />
-							View Students
-						</Typography>
-						</CardContent>
-					</Card>
+					<Link to="/students/view" className={this.props.classes.link}>
+						<Card className={this.props.classes.card}>
+							<CardContent>
+							<Typography component="h1" variant="h3" align="center" color="textPrimary" gutterBottom>
+								<FontAwesomeIcon className={this.props.classes.icon}  component="h1" variant="h1" align="center" icon={faUsers}/>
+								<br />
+								View Students
+							</Typography>
+							</CardContent>
+						</Card>
+					</Link>
 				</Grid>
 			</Fade>
 		

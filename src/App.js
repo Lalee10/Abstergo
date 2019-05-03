@@ -4,6 +4,9 @@ import "./App.css";
 import CssBaseline from '@material-ui/core/CssBaseline';
 import Dashboard from "./components/General/Dashboard"
 import Student from "./components/Main/Student";
+import StudentList from "./components/Main/StudentCRUD/StudentList";
+import StudentView from "./components/Main/StudentCRUD/StudentView";
+import VideoUpload from "./components/Main/Videos/Upload";
 
 class App extends Component {
 	render() {
@@ -13,6 +16,9 @@ class App extends Component {
 					<BrowserRouter>
 						<Route path="/" component={Dashboard} exact />
 						<Route path="/students" component={Student} exact />
+						<Route path="/students/view" component={StudentList} exact />
+						<Route path="/students/:id" component={StudentView} exact />
+						<Route path = "/videos/upload" component={VideoUpload} exact />
 					</BrowserRouter>
 				</CssBaseline>
 			</div>
