@@ -3,7 +3,7 @@ import { withStyles } from "@material-ui/core/styles";
 import Button from "@material-ui/core/Button";
 import FormCard from "../General/FormCard";
 import { renderTextField, renderRadioGroup, formStyles } from "../../helpers/Form";
-import { createEntity } from "../../helpers/crud";
+import { createEntity, readEntity, updateEntity } from "../../helpers/crud";
 
 const defaultValues = {
 	firstName: "",
@@ -15,30 +15,53 @@ class TeacherForm extends React.Component {
 	state = {
 		...defaultValues,
 		loading: false,
+		formTask: "create",
 	};
 
-	componentDidMount = () => {
-		if (this.props.initialValues) {
-			const { firstName, lastName, gender } = this.props.initialValues;
-			this.setState({
-				firstName,
-				lastName,
-				gender,
-			});
+	componentDidMount = async () => {
+		const { match } = this.props;
+
+		if (match) {
+			this.setState({ loading: true });
+			const response = await readEntity("teacher", match.params.id);
+			if (response.data) {
+				const { firstName, lastName, gender } = response.data;
+				this.setState({
+					firstName,
+					lastName,
+					gender,
+					loading: false,
+					formTask: "update",
+				});
+			} else {
+				this.setState({ loading: false });
+			}
 		}
 	};
 
 	render() {
-		const { loading } = this.state;
 		const { classes } = this.props;
+		const { loading, formTask } = this.state;
 
 		return (
 			<FormCard formTitle="Teacher Form" loading={loading}>
 				<form
 					onSubmit={async e => {
 						e.preventDefault();
-						let success = await createEntity(this, this.state, "student");
-						if (success) this.setState({ ...defaultValues, loading: false });
+
+						let success;
+						if (formTask === "create") {
+							success = await createEntity(this, this.state, "teacher");
+						} else {
+							success = await updateEntity(
+								this,
+								this.state,
+								{ teacherId: this.props.match.params.id },
+								"teacher"
+							);
+						}
+
+						if (success) this.setState({ ...defaultValues, loading: false, formTask: "create" });
 					}}
 					className={classes.container}
 					autoComplete="disabled"
@@ -50,8 +73,15 @@ class TeacherForm extends React.Component {
 						{ value: "female", label: "Female" },
 					])}
 
-					<Button type="submit" size="large" variant="contained" className={classes.button} color="primary">
-						Add Teacher
+					<Button
+						disabled={loading}
+						size="large"
+						variant="contained"
+						className={classes.button}
+						color="primary"
+						type="submit"
+					>
+						{formTask === "create" ? "Add" : "Update"} Teacher
 					</Button>
 				</form>
 			</FormCard>

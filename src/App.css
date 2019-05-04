@@ -17,13 +17,6 @@
 }
 
 .form-card {
-	width: 40%;
-	margin: 30px;
-}
-
-@media screen and (max-width: 720px) {
-	.form-card {
-		width: auto;
-		margin: 20px;
-	}
+	margin: 20px auto;
+	max-width: 600px;
 }

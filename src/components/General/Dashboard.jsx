@@ -91,39 +91,55 @@ class Dashboard extends React.Component {
 					</Grid>
 
 					<Grid className={this.props.classes.cardGrid} item sm={12} md={4} lg={3}>
-						<Card className={this.props.classes.card}>
-							<CardContent>
-								<Typography component="h1" variant="h2" align="center" color="textPrimary" gutterBottom>
-									<FontAwesomeIcon
-										className={this.props.classes.icon}
+						<Link to="/teachers" className={this.props.classes.link}>
+							<Card className={this.props.classes.card}>
+								<CardContent>
+									<Typography
 										component="h1"
-										variant="h1"
+										variant="h2"
 										align="center"
-										icon={faDizzy}
-									/>
-									<br />
-									Teachers
-								</Typography>
-							</CardContent>
-						</Card>
+										color="textPrimary"
+										gutterBottom
+									>
+										<FontAwesomeIcon
+											className={this.props.classes.icon}
+											component="h1"
+											variant="h1"
+											align="center"
+											icon={faDizzy}
+										/>
+										<br />
+										Teachers
+									</Typography>
+								</CardContent>
+							</Card>
+						</Link>
 					</Grid>
 
 					<Grid className={this.props.classes.cardGrid} item sm={12} md={4} lg={3}>
-						<Card className={this.props.classes.card}>
-							<CardContent>
-								<Typography component="h1" variant="h2" align="center" color="textPrimary" gutterBottom>
-									<FontAwesomeIcon
-										className={this.props.classes.icon}
+						<Link to="/tests" className={this.props.classes.link}>
+							<Card className={this.props.classes.card}>
+								<CardContent>
+									<Typography
 										component="h1"
-										variant="h1"
+										variant="h2"
 										align="center"
-										icon={faBook}
-									/>
-									<br />
-									Tests
-								</Typography>
-							</CardContent>
-						</Card>
+										color="textPrimary"
+										gutterBottom
+									>
+										<FontAwesomeIcon
+											className={this.props.classes.icon}
+											component="h1"
+											variant="h1"
+											align="center"
+											icon={faBook}
+										/>
+										<br />
+										Tests
+									</Typography>
+								</CardContent>
+							</Card>
+						</Link>
 					</Grid>
 				</Grid>
 			</div>

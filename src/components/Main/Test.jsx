@@ -1,7 +1,11 @@
-import React from "react"
+import React, { Component } from "react";
+import Content from "../General/Content";
+import { faFolderPlus, faFolder } from "@fortawesome/free-solid-svg-icons";
 
-export default class Test extends React.Component {
+class Test extends Component {
 	render() {
-		return <div>Test Component</div>
+		return <Content entity="Test" link="tests" addIcon={faFolderPlus} viewIcon={faFolder} />;
 	}
 }
+
+export default Test;

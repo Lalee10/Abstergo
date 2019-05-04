@@ -30,17 +30,31 @@ export const readEntities = async route => {
 
 export const readEntity = async (route, id) => {
 	try {
-		return await axios.get(`/api/${route}/${id}`);
+		const response = await axios.get(`/api/${route}/${id}`);
+		if (!response) toast.error(`No ${route} found`);
+		return response;
 	} catch (error) {
+		toast.error(`Read failed. Unable to connect to server`);
 		return false;
 	}
 };
 
-export const updateEntity = async (entity, route) => {
+export const updateEntity = async (context, entity, where, route) => {
+	let updated = false;
+	context.setState({ loading: true });
 	try {
-		return await axios.put(`/api/${route}`, { ...entity });
+		const response = await axios.put(`/api/${route}`, { entityToUpdate: { ...entity }, where });
+		updated = response.data;
+		if (response.status === 200) {
+			toast.success("Successfully updated");
+		} else {
+			toast.error("Update failed");
+		}
 	} catch (error) {
-		return false;
+		toast.error("Update failed. Service not available");
+	} finally {
+		context.setState({ loading: false });
+		return updated;
 	}
 };
 
