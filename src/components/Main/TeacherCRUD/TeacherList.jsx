@@ -12,8 +12,10 @@ import { withStyles } from '@material-ui/core/styles';
 import PropTypes from 'prop-types';
 import Button from '@material-ui/core/Button';
 import Fade from '@material-ui/core/Fade'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import {faUserPlus, faUsers} from '@fortawesome/free-solid-svg-icons';
 import { Link } from 'react-router-dom';
-import axios from 'axios';
+import axios from "axios";
 
 const styles = theme => ({
 	mainGrid: {
@@ -42,55 +44,41 @@ const styles = theme => ({
       }
 });
 
-class StudentList extends Component {
+class TeacherList extends Component {
+    state = {teachers: null}
 
-    renderStudents = () => {
-        if (!this.state.students) {
-            return <div></div>
+    async componentDidMount() {
+        const teachers = (await axios.get("/api/teacher")).data;
+        this.setState({teachers: teachers});
+        console.log(teachers);
+    }
+
+    renderTeachers = () => {
+        if (!this.state.teachers){
+            return (<div></div>)
         }
-        return (
-            this.state.students.map((student,index)=>{
-                return (
-                    <Fade>
-                    
-                    
-                        <Link className= {this.props.classes.link} to={"/students/" + student.studentID}>
-                            <ListItem alignItems="flex-start">
+        return this.state.teachers.map((teacher, index)=>{
+            return (
+                <Fade in={true} timeout={500*(index+1)}>
+                    <Link to={"/api/teacher/"+teacher.teacherID}>
+                        <ListItem alignItems="flex-start" key={teacher.teacherID}>
+
                                 <ListItemAvatar>
                                     <Avatar src="/elliot.jpg" />
                                 </ListItemAvatar>
+                        
                                 <ListItemText
-                                primary={student.firstName + " " + student.lastName}
-                                secondary={
-                                    <React.Fragment>
-                                    <Typography component="span" className={this.props.classes.inline} color="textPrimary">
-                                        Grade: {student.grade}
-                                    </Typography>
-                                    </React.Fragment>
-                                }
+                                primary={teacher.firstName +  " " + teacher.lastName}
                                 />
                             <Button className={this.props.classes.button} variant="contained" color="primary"> View </Button>
                             
                         </ListItem>
                     </Link>
-                    </Fade>
-                   
-                
-                )
-
-            })
-            
-        )
+                </Fade>
+            )
+        });
     }
 
-    state = {
-        students: null
-    }
-
-    async componentDidMount() {
-        const students = (await axios.get("/api/student")).data;
-        this.setState({students: students});
-    }
     render() {
         return (
             <div>
@@ -98,27 +86,28 @@ class StudentList extends Component {
                 <AppBar position="static" className={this.props.classes.appBar}>
                     <Toolbar>
                     <Typography variant="h6" color="inherit" align="center" noWrap>
-                        View Students
+                        View Teachers
                     </Typography>
                     </Toolbar>
                 </AppBar>
 
                 <Grid container spacing={16} justify="center" alignContent="center" className={this.props.classes.mainGrid}>
-                 <List className={this.props.classes.root}>
-
-                    {this.renderStudents()}
-                 </List>
-                </Grid>
-
+                    
+                    <List className={this.props.classes.root}>
+                        
+                        {this.renderTeachers()}
+                    
+                    </List>
                 
+                </Grid>
                 
             </div>
         );
     }
 }
 
-StudentList.propTypes = {
+TeacherList.propTypes = {
 	classes: PropTypes.object.isRequired,
   };
   
-  export default withStyles(styles)(StudentList);
+  export default withStyles(styles)(TeacherList);

@@ -12,8 +12,10 @@ import { withStyles } from '@material-ui/core/styles';
 import PropTypes from 'prop-types';
 import Button from '@material-ui/core/Button';
 import Fade from '@material-ui/core/Fade'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import {faUserPlus, faUsers} from '@fortawesome/free-solid-svg-icons';
 import { Link } from 'react-router-dom';
-import axios from 'axios';
+import axios from "axios";
 
 const styles = theme => ({
 	mainGrid: {
@@ -42,29 +44,31 @@ const styles = theme => ({
       }
 });
 
-class StudentList extends Component {
+class TestList extends Component {
+    state = {tests: null}
 
-    renderStudents = () => {
-        if (!this.state.students) {
-            return <div></div>
+    async componentDidMount() {
+        const tests = (await axios.get("/api/test")).data;
+        this.setState({tests: tests});
+        console.log(tests);
+    }
+
+    renderTests = () => {
+        if (!this.state.tests){
+            return (<div></div>)
         }
-        return (
-            this.state.students.map((student,index)=>{
-                return (
-                    <Fade>
-                    
-                    
-                        <Link className= {this.props.classes.link} to={"/students/" + student.studentID}>
-                            <ListItem alignItems="flex-start">
-                                <ListItemAvatar>
-                                    <Avatar src="/elliot.jpg" />
-                                </ListItemAvatar>
+        return this.state.tests.map((test, index)=>{
+            return (
+                <Fade in={true} timeout={500*(index+1)}>
+                    <Link to={"/api/test/"+test.testID}>
+                        <ListItem alignItems="flex-start" key={test.testID}>
+                        
                                 <ListItemText
-                                primary={student.firstName + " " + student.lastName}
+                                primary={test.Name}
                                 secondary={
                                     <React.Fragment>
                                     <Typography component="span" className={this.props.classes.inline} color="textPrimary">
-                                        Grade: {student.grade}
+                                        Topic: {test.topic}
                                     </Typography>
                                     </React.Fragment>
                                 }
@@ -73,24 +77,11 @@ class StudentList extends Component {
                             
                         </ListItem>
                     </Link>
-                    </Fade>
-                   
-                
-                )
-
-            })
-            
-        )
+                </Fade>
+            )
+        });
     }
 
-    state = {
-        students: null
-    }
-
-    async componentDidMount() {
-        const students = (await axios.get("/api/student")).data;
-        this.setState({students: students});
-    }
     render() {
         return (
             <div>
@@ -98,27 +89,28 @@ class StudentList extends Component {
                 <AppBar position="static" className={this.props.classes.appBar}>
                     <Toolbar>
                     <Typography variant="h6" color="inherit" align="center" noWrap>
-                        View Students
+                        View Tests
                     </Typography>
                     </Toolbar>
                 </AppBar>
 
                 <Grid container spacing={16} justify="center" alignContent="center" className={this.props.classes.mainGrid}>
-                 <List className={this.props.classes.root}>
-
-                    {this.renderStudents()}
-                 </List>
-                </Grid>
-
+                    
+                    <List className={this.props.classes.root}>
+                        
+                        {this.renderTests()}
+                    
+                    </List>
                 
+                </Grid>
                 
             </div>
         );
     }
 }
 
-StudentList.propTypes = {
+TestList.propTypes = {
 	classes: PropTypes.object.isRequired,
   };
   
-  export default withStyles(styles)(StudentList);
+  export default withStyles(styles)(TestList);

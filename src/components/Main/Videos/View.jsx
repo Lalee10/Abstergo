@@ -81,7 +81,7 @@ class ViewVideo extends Component {
         );
     }
 }
-
+    
 ViewVideo.propTypes = {
     classes: PropTypes.object.isRequired
 };

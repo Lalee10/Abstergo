@@ -8,10 +8,12 @@ import Button from '@material-ui/core/Button';
 import Card from '@material-ui/core/Card';
 import { CardContent } from "@material-ui/core";
 import PropTypes from 'prop-types';
+import axios from "axios";
 
 const styles = theme => ({
     mainGrid: {
-		marginTop: "64px"
+        marginTop: "64px",
+        margin: "auto"
     },
     
     button: {
@@ -19,6 +21,10 @@ const styles = theme => ({
         width: "24px",
         marginTop: "16px",
         marginRight: "64px",
+    },
+
+    imageGrid: {
+        textAlign: "center"
     },
 
     buttonGrid: {
@@ -37,26 +43,30 @@ const styles = theme => ({
 	},
 })
 
-const imgStyle = {width: 256, height: 256, borderRadius: "20%", transform: "rotate(5deg)"};
+const imgStyle = {margin: "auto", width: 256, height: 256, borderRadius: "20%", transform: "rotate(5deg)"};
 
 class StudentView extends Component {
-    render() {
+
+    state = {student: null}
+
+    async componentDidMount(){
+        const student = (await axios.get("/api/student/" + this.props.match.params.id)).data;
+        this.setState({student: student});
+    }
+
+    renderStudent = () => {
+        if (!this.state.student){
+            return <div></div>
+        }
+
         return (
-            <div>
-                <AppBar position="static" className={this.props.classes.appBar}>
-                        <Toolbar>
-                        <Typography variant="h6" color="inherit" align="center" noWrap>
-                            View Students
-                        </Typography>
-                        </Toolbar>
-                </AppBar>
-                <Grid container spacing={16}  justify="center" alignContent="center" alignItems="center" className={this.props.classes.mainGrid}>
+            <Grid container spacing={16}  justify="center" alignContent="center" alignItems="center" className={this.props.classes.mainGrid}>
                     
-                    <Grid item  xs={12} sm={10} lg = {3} justify="center" alignContent="center">
+                    <Grid item className={this.props.classes.imageGrid}  xs={12} sm={12} lg = {4} justify="center" alignContent="center">
                         <img src="/elliot.jpg" style ={imgStyle}></img>
                     </Grid> 
                     
-                    <Grid item  xs={12} sm={10} lg = {7}>
+                    <Grid item  xs={12} sm={12} lg = {7}>
                         <Grid container  spacing={16}  justify="center" alignContent="center" alignItems="center">
                             
                             <Grid item xs={12} lg = {12}>
@@ -65,19 +75,16 @@ class StudentView extends Component {
                                     <CardContent>
                                         
                                         <Typography component="h1" variant="h2" align="center" color="textPrimary" gutterBottom>
-                                            Student Name
+                                            {this.state.student.firstName + " " + this.state.student.lastName}
                                         </Typography>
                                         <Typography component="h1" variant="h4" align="center" color="textPrimary" gutterBottom>
-                                            Grade: 5
+                                            Grade: {this.state.student.grade}
                                         </Typography>
                                         <Typography component="h1" variant="h4" align="center" color="textPrimary" gutterBottom>
-                                            Age: 10 
+                                            Age: {this.state.student.age}
                                         </Typography>
                                         <Typography component="h1" variant="h4" align="center" color="textPrimary" gutterBottom>
-                                            abc: xyz
-                                        </Typography>
-                                        <Typography component="h1" variant="h4" align="center" color="textPrimary" gutterBottom>
-                                            def: uvw 
+                                            Gender: {this.state.student.gender}
                                         </Typography>
                                     </CardContent>
                                 </Card>
@@ -91,7 +98,21 @@ class StudentView extends Component {
                     </Grid>
 
                 </Grid>
+        );
+    }
 
+    render() {
+        return (
+            <div>
+                <AppBar position="static" className={this.props.classes.appBar}>
+                        <Toolbar>
+                        <Typography variant="h6" color="inherit" align="center" noWrap>
+                            View Students
+                        </Typography>
+                        </Toolbar>
+                </AppBar>
+                
+                {this.renderStudent()}
 
                 
                 
