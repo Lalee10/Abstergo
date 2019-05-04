@@ -18,8 +18,7 @@ import { Link } from 'react-router-dom';
 
 const styles = theme => ({
 	mainGrid: {
-		position: "absolute",
-		top: "20%"
+		marginTop: "64px"
 	},
 
 	appBar: {

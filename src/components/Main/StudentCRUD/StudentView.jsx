@@ -1,17 +1,12 @@
 import React, { Component } from 'react';
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
-import Avatar from '@material-ui/core/Avatar';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import { withStyles } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import Card from '@material-ui/core/Card';
-import CardMedia from '@material-ui/core/CardMedia';
 import { CardContent } from "@material-ui/core";
-
-
 import PropTypes from 'prop-types';
 
 const styles = theme => ({
