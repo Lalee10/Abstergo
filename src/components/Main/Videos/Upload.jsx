@@ -79,8 +79,6 @@ class Upload extends Component {
         data.append('file', this.state.selectedFile);
         data.append("name", this.state.name);
         data.append("description", this.state.description);
-        console.log(data.get("name"));
-        console.log(data.get("description"));
         axios.post("http://localhost:8080/upload", data, { // receive two parameter endpoint url ,form data 
       })
       .then(res => { // then print response status

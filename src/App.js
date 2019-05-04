@@ -22,7 +22,7 @@ class App extends Component {
 						<Route path="/students/:id" component={StudentView} exact />
 						<Route path = "/videos/upload" component={VideoUpload} exact />
 						<Route path = "/videos" component={VideoList} exact />
-						<Route path = "/videos/view" component={VideoView} exact />
+						<Route path = "/videos/:id" component={VideoView} exact />
 					</BrowserRouter>
 				</CssBaseline>
 			</div>
