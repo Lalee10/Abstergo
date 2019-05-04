@@ -2,6 +2,7 @@ import axios from "axios";
 import { toast } from "react-toastify";
 
 export const createEntity = async (context, entity, route) => {
+	console.log("ENTITY", entity);
 	let created = false;
 	context.setState({ loading: true });
 	try {
@@ -24,6 +25,7 @@ export const readEntities = async route => {
 	try {
 		return await axios.get(`/api/${route}`);
 	} catch (error) {
+		toast.error("There was an error loading students");
 		return false;
 	}
 };

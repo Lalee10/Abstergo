@@ -61,6 +61,20 @@ export const renderNumberField = (context, name) => (
 	/>
 );
 
+export const renderFileUploadField = (context, name) => (
+	<TextField
+		id={camelToKebab(name)}
+		variant="outlined"
+		helperText={camelToTitle(name)}
+		className={context.props.classes.textField}
+		value={context.state[name]}
+		onChange={handleChange(context, `${name}`)}
+		margin="normal"
+		type="file"
+		required={true}
+	/>
+);
+
 export const renderRadioGroup = (context, name, radios) => (
 	<FormControl component="fieldset">
 		<RadioGroup

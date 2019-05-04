@@ -2,7 +2,13 @@ import React from "react";
 import { withStyles } from "@material-ui/core/styles";
 import Button from "@material-ui/core/Button";
 import FormCard from "../General/FormCard";
-import { renderTextField, renderNumberField, renderRadioGroup, formStyles } from "../../helpers/Form";
+import {
+	renderTextField,
+	renderNumberField,
+	renderRadioGroup,
+	formStyles,
+	renderFileUploadField,
+} from "../../helpers/Form";
 import { createEntity, readEntity, updateEntity } from "../../helpers/crud";
 
 const defaultValues = {
@@ -11,6 +17,7 @@ const defaultValues = {
 	age: "",
 	gender: "male",
 	grade: "",
+	profilePicture: "",
 };
 
 class StudentForm extends React.Component {
@@ -23,7 +30,7 @@ class StudentForm extends React.Component {
 	componentDidMount = async () => {
 		const { match } = this.props;
 
-		if (match) {
+		if (match.params.id) {
 			this.setState({ loading: true });
 			const response = await readEntity("student", match.params.id);
 			if (response.data) {
@@ -67,6 +74,7 @@ class StudentForm extends React.Component {
 
 						if (success) this.setState({ ...defaultValues, loading: false, formTask: "create" });
 					}}
+					encType="multipart/form-data"
 					className={classes.container}
 					autoComplete="disabled"
 				>
@@ -78,6 +86,7 @@ class StudentForm extends React.Component {
 						{ value: "male", label: "Male" },
 						{ value: "female", label: "Female" },
 					])}
+					{renderFileUploadField(this, "profilePicture")}
 
 					<Button
 						disabled={loading}
