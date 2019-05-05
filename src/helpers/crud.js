@@ -75,7 +75,7 @@ export const deleteEntity = async (entity, route) => {
 };
 
 export const readOptions = async route => {
-	const entities = await readEntities("student");
+	const entities = await readEntities(route);
 	console.log(entities);
 	return convertToOptions(entities, `${route}ID`);
 };

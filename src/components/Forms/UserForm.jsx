@@ -41,7 +41,7 @@ class UserForm extends React.Component {
 				<form
 					onSubmit={async e => {
 						e.preventDefault();
-						let success = await createEntity(this, this.getFormValues(), "student");
+						let success = await createEntity(this, this.getFormValues(), "user");
 						if (success)
 							this.setState({
 								username: "",
