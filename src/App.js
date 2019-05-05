@@ -17,6 +17,7 @@ import StudentView from "./components/Main/Student/StudentView";
 import VideoUpload from "./components/Main/Videos/Upload";
 import VideoList from "./components/Main/Videos/List";
 import VideoView from "./components/Main/Videos/View";
+import Login from "./components/Main/Auth/Login";
 
 toast.configure({
 	position: toast.POSITION.TOP_RIGHT,
@@ -30,6 +31,8 @@ class App extends Component {
 				<CssBaseline>
 					<BrowserRouter>
 						<Route path="/" component={Dashboard} exact />
+						<Route path="/login" component={Login} exact />
+
 						<Route path="/students" component={Student} exact />
 						<Route path="/teachers" component={Teacher} exact />
 						<Route path="/tests" component={Test} exact />
