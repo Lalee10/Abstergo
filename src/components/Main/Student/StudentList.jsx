@@ -42,13 +42,13 @@ const styles = theme => ({
 
 class StudentList extends Component {
 	state = {
-        students: [],
+		students: [],
 		loading: true,
 	};
 
 	componentDidMount = async () => {
-        let response = readEntities
-    };
+		let response = readEntities;
+	};
 
 	renderStudent = student => (
 		<ListItem alignItems="flex-start">

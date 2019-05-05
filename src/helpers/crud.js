@@ -23,9 +23,15 @@ export const createEntity = async (context, entity, route) => {
 
 export const readEntities = async route => {
 	try {
-		return await axios.get(`/api/${route}`);
+		const response = await axios.get(`/api/${route}`);
+		if (response.status === 200) {
+			return response.data;
+		} else {
+			toast.error(`There was an error loading ${route}s`);
+			return [];
+		}
 	} catch (error) {
-		toast.error("There was an error loading students");
+		toast.error(`There was an error loading ${route}s`);
 		return false;
 	}
 };
