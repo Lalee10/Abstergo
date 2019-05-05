@@ -5,7 +5,7 @@ import Radio from "@material-ui/core/Radio";
 import RadioGroup from "@material-ui/core/RadioGroup";
 import TextField from "@material-ui/core/TextField";
 import { camelToKebab, camelToTitle } from "./text";
-import { handleChange } from "./handlers";
+import { handleChange, handleFileChange } from "./handlers";
 
 export const formStyles = theme => ({
 	container: {
@@ -64,11 +64,8 @@ export const renderNumberField = (context, name) => (
 export const renderFileUploadField = (context, name) => (
 	<TextField
 		id={camelToKebab(name)}
-		variant="outlined"
-		helperText={camelToTitle(name)}
 		className={context.props.classes.textField}
-		value={context.state[name]}
-		onChange={handleChange(context, `${name}`)}
+		onChange={handleFileChange(context, `${name}`)}
 		margin="normal"
 		type="file"
 		required={true}

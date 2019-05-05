@@ -5,8 +5,12 @@ export const createEntity = async (context, entity, route) => {
 	console.log("ENTITY", entity);
 	let created = false;
 	context.setState({ loading: true });
+	let data = new FormData();
+	for ( let key in entity ) {
+		data.append(key, entity[key]);
+	}
 	try {
-		const response = await axios.post(`/api/${route}`, { ...entity });
+		const response = await axios.post(`/api/${route}`, data);
 		created = response.data;
 		if (response.status === 200) {
 			toast.success("Successfully created");

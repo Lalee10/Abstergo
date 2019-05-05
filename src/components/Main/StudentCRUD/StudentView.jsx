@@ -8,6 +8,11 @@ import Button from '@material-ui/core/Button';
 import Card from '@material-ui/core/Card';
 import { CardContent } from "@material-ui/core";
 import PropTypes from 'prop-types';
+import Dialog from '@material-ui/core/Dialog';
+import DialogActions from '@material-ui/core/DialogActions';
+import DialogContent from '@material-ui/core/DialogContent';
+import DialogContentText from '@material-ui/core/DialogContentText';
+import DialogTitle from '@material-ui/core/DialogTitle';
 import axios from "axios";
 
 const styles = theme => ({
@@ -47,7 +52,20 @@ const imgStyle = {margin: "auto", width: 256, height: 256, borderRadius: "20%", 
 
 class StudentView extends Component {
 
-    state = {student: null}
+    state = {student: null, dialogOpen: false}
+
+    openModal = () => {
+        this.setState({dialogOpen: true});
+    }
+
+    closeModal = () => {
+        this.setState({dialogOpen: false});
+    }
+
+    handleDelete = async () => {
+        await axios.delete("/api/student/" + this.state.student.studentID, {data: {data: {studentID: this.state.student.studentID}}});
+        this.props.history.push("/students/view")
+    }
 
     async componentDidMount(){
         const student = (await axios.get("/api/student/" + this.props.match.params.id)).data;
@@ -63,7 +81,7 @@ class StudentView extends Component {
             <Grid container spacing={16}  justify="center" alignContent="center" alignItems="center" className={this.props.classes.mainGrid}>
                     
                     <Grid item className={this.props.classes.imageGrid}  xs={12} sm={12} lg = {4} justify="center" alignContent="center">
-                        <img src="/elliot.jpg" style ={imgStyle}></img>
+                        <img src={this.state.student.imagePath} style ={imgStyle}></img>
                     </Grid> 
                     
                     <Grid item  xs={12} sm={12} lg = {7}>
@@ -91,8 +109,8 @@ class StudentView extends Component {
                             </Grid>
 
                             <Grid item className={this.props.classes.buttonGrid} item xs={12} sm={10} lg = {10} alignItems="center" alignContent="center">
-                                <Button className={this.props.classes.button} variant = "contained" color="primary"> Edit </Button>
-                                <Button className={this.props.classes.button} variant="contained" color="secondary"> Delete </Button>
+                                <Button  className={this.props.classes.button} variant = "contained" color="primary"> Edit </Button>
+                                <Button onClick={this.openModal} className={this.props.classes.button} variant="contained" color="secondary"> Delete </Button>
                              </Grid>
                          </Grid>
                     </Grid>
@@ -104,6 +122,29 @@ class StudentView extends Component {
     render() {
         return (
             <div>
+                <Dialog
+            open={this.state.dialogOpen}
+            onClose={this.closeModal}
+            aria-labelledby="alert-dialog-title"
+            aria-describedby="alert-dialog-description"
+            >
+                    <DialogTitle id="alert-dialog-title">{"Confirm Delete"}</DialogTitle>
+                    <DialogContent>
+                        <DialogContentText id="alert-dialog-description">
+
+                            {this.state.student ? `Are you sure you want to delete ${this.state.student.firstName}  ${this.state.student.lastName}?` : ""}
+                        </DialogContentText>
+                    </DialogContent>
+                    <DialogActions>
+                        <Button onClick={this.handleClose} color="primary">
+                        Cancel
+                        </Button>
+                        <Button onClick={this.handleDelete} color="primary">
+                        Delete
+                        </Button>
+                    </DialogActions>
+             </Dialog>
+
                 <AppBar position="static" className={this.props.classes.appBar}>
                         <Toolbar>
                         <Typography variant="h6" color="inherit" align="center" noWrap>
