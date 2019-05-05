@@ -5,6 +5,7 @@ import Card from "@material-ui/core/Card";
 import CardContent from "@material-ui/core/CardContent";
 import Typography from "@material-ui/core/Typography";
 import LinearProgress from "@material-ui/core/LinearProgress";
+import Slide from "@material-ui/core/Slide";
 
 class FormCard extends Component {
 	render() {
@@ -17,10 +18,12 @@ class FormCard extends Component {
 						</Typography>
 					</Toolbar>
 				</AppBar>
-				<Card className="form-card" raised={true}>
-					<CardContent>{this.props.children}</CardContent>
-					<LinearProgress hidden={!this.props.loading} />
-				</Card>
+				<Slide direction="up" in={true} timeout={1000}>
+					<Card className="form-card" raised={true}>
+						<CardContent>{this.props.children}</CardContent>
+						<LinearProgress hidden={!this.props.loading} />
+					</Card>
+				</Slide>
 			</React.Fragment>
 		);
 	}

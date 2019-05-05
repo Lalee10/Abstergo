@@ -18,6 +18,7 @@ import VideoUpload from "./components/Main/Videos/Upload";
 import VideoList from "./components/Main/Videos/List";
 import VideoView from "./components/Main/Videos/View";
 import Login from "./components/Main/Auth/Login";
+import StudentTests from "./components/Main/Student/StudentTests";
 
 toast.configure({
 	position: toast.POSITION.TOP_RIGHT,
@@ -38,6 +39,7 @@ class App extends Component {
 						<Route path="/tests" component={Test} exact />
 						<Route path="/students/view" component={StudentList} exact />
 						<Route path="/students/view/:id" component={StudentView} exact />
+						<Route path="/students/tests" component={StudentTests} exact />
 						<Route path="/videos/upload" component={VideoUpload} exact />
 						<Route path="/videos" component={VideoList} exact />
 						<Route path="/videos/view" component={VideoView} exact />

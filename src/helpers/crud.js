@@ -32,7 +32,7 @@ export const readEntities = async route => {
 		}
 	} catch (error) {
 		toast.error(`There was an error loading ${route}s`);
-		return false;
+		return [];
 	}
 };
 
@@ -72,4 +72,16 @@ export const deleteEntity = async (entity, route) => {
 	} catch (error) {
 		return false;
 	}
+};
+
+export const readOptions = async route => {
+	const entities = await readEntities("student");
+	console.log(entities);
+	return convertToOptions(entities, `${route}ID`);
+};
+
+const convertToOptions = (arrayOfObjects, key) => {
+	const options = [];
+	arrayOfObjects.forEach(elem => options.push({ id: elem[key], label: `${elem.firstName} ${elem.lastName}` }));
+	return options;
 };

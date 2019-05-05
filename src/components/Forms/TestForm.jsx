@@ -2,7 +2,7 @@ import React from "react";
 import { withStyles } from "@material-ui/core/styles";
 import Button from "@material-ui/core/Button";
 import FormCard from "../General/FormCard";
-import { renderTextField, renderRadioGroup, formStyles } from "../../helpers/Form";
+import { renderTextField, formStyles } from "../../helpers/Form";
 import { createEntity, readEntity, updateEntity } from "../../helpers/crud";
 
 const defaultValues = {
@@ -21,7 +21,7 @@ class TestForm extends React.Component {
 	componentDidMount = async () => {
 		const { match } = this.props;
 
-		if (match) {
+		if (match.params.id) {
 			this.setState({ loading: true });
 			const response = await readEntity("test", match.params.id);
 			if (response.data) {

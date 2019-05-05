@@ -3,33 +3,31 @@ import { withStyles } from "@material-ui/core/styles";
 import Button from "@material-ui/core/Button";
 import FormCard from "../General/FormCard";
 import { renderTextField, formStyles, renderDropdownSelect } from "../../helpers/Form";
-import { readEntities } from "../../helpers/crud";
+import { readOptions, createEntity } from "../../helpers/crud";
 
 class UserForm extends React.Component {
 	state = {
 		username: "",
 		password: "",
 		role: "",
-		studentId: "",
-		teacherId: "",
+		studentID: "",
+		teacherID: "",
 		loading: true,
 		students: [],
 		teachers: [],
 	};
 
-	convertToOptions = (arrayOfObjects, key) => {
-		const options = [];
-		arrayOfObjects.forEach(elem => options.push({ id: elem[key], label: `${elem.firstName} ${elem.lastName}` }));
-		return options;
+	getFormValues = () => {
+		const { username, password, role, studentID, teacherID } = this.state;
+		if (role === "student") return { username, password, role, studentID };
+		else if (role === "teacher") return { username, password, role, teacherID };
+		else return { username, password, role };
 	};
 
 	componentDidMount = async () => {
-		const students = await readEntities("student");
-		const teachers = await readEntities("teacher");
-		console.log(students, teachers);
 		this.setState({
-			students: this.convertToOptions(students, "studentID"),
-			teachers: this.convertToOptions(teachers, "teacherID"),
+			students: await readOptions("student"),
+			teachers: await readOptions("teacher"),
 			loading: false,
 		});
 	};
@@ -40,16 +38,32 @@ class UserForm extends React.Component {
 
 		return (
 			<FormCard formTitle="User Form" loading={loading}>
-				<form className={classes.container} autoComplete="disabled">
+				<form
+					onSubmit={async e => {
+						e.preventDefault();
+						let success = await createEntity(this, this.getFormValues(), "student");
+						if (success)
+							this.setState({
+								username: "",
+								password: "",
+								role: "",
+								studentID: "",
+								teacherID: "",
+								loading: false,
+							});
+					}}
+					className={classes.container}
+					autoComplete="disabled"
+				>
 					{renderTextField(this, "username")}
-					{renderTextField(this, "password")}
+					{renderTextField(this, "password", "password")}
 					{renderDropdownSelect(this, "role", [
 						{ id: "admin", label: "Admin" },
 						{ id: "student", label: "Student" },
 						{ id: "teacher", label: "Teacher" },
 					])}
-					{role === "student" && renderDropdownSelect(this, "studentId", students)}
-					{role === "teacher" && renderDropdownSelect(this, "teacherId", teachers)}
+					{role === "student" && renderDropdownSelect(this, "studentID", students)}
+					{role === "teacher" && renderDropdownSelect(this, "teacherID", teachers)}
 
 					<Button type="submit" size="large" variant="contained" className={classes.button} color="primary">
 						Add User
