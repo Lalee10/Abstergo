@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
+import Button from "@material-ui/core/Button"
 import { withStyles } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
@@ -10,6 +11,11 @@ import { CardMedia } from "@material-ui/core";
 import axios from "axios";
 import PropTypes from 'prop-types';
 import { Link } from "react-router-dom"
+import { connect } from "react-redux";
+import { throws } from 'assert';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faPlus } from '@fortawesome/free-solid-svg-icons';
+
 
 const styles = theme => ({
 	mainGrid: {
@@ -36,7 +42,20 @@ const styles = theme => ({
 
 const imgStyle = {width: "100%", height: 200}
 
+function mapStateToProps(state){
+    return {user : state.user}
+}
+
 class VideoList extends Component {
+
+    handleDelete = async (id) => {
+        let response = await axios.delete("/api/videos", {data: {data: {videoID: id}}});
+        console.log(response);
+        if (response.status === 200){
+            console.log("GOT 200 RESPONSE")
+            window.location.reload();
+        }
+    }
 
     state = {
         videos: null
@@ -56,8 +75,8 @@ class VideoList extends Component {
         }
         return (
             this.state.videos.map(video=>{ return(
-            <Grid item xs = {12} sm = {6} md = {4} lg = {3} key={video.videoID}>
-                <Link to={"/videos/"+video.videoID} className = {this.props.classes.link}> 
+        <Grid style={{textAlign:"center"}} item xs = {12} sm = {6} md = {4} lg = {3} key={video.videoID}>
+            <Link to={"/videos/"+video.videoID} className = {this.props.classes.link}> 
                 <Card>
                     <CardMedia className={this.props.cardMedia}>
                         <img src={video.thumbnail} style={imgStyle}></img>
@@ -67,9 +86,11 @@ class VideoList extends Component {
                             {video.name}
                         </Typography>
                     </CardContent>
-                    </Card>
-                </Link>
-            </Grid>)
+                </Card>
+            </Link>
+
+            {!this.props.user  ? (<Button  onClick={()=> this.handleDelete(video.videoID)} style={{marginTop:"8px"}} variant="contained" color="secondary">Delete</Button>) : <div></div>}
+        </Grid>)
             })
         )
     }
@@ -87,7 +108,15 @@ class VideoList extends Component {
     </AppBar>
 
         <Grid container spacing = {16} justify="left" alignContent="left" className={this.props.classes.mainGrid}>
-           
+           <Grid item lg={12} style={{textAlign:"center"}}>
+           <Link to ="/videos/upload" style={{textDecoration: "none"}}>
+                <Button variant="contained" color="primary">
+                    <FontAwesomeIcon icon={faPlus} style={{marginRight: "8px"}}/>
+                
+                    Add New Video
+                </Button>
+            </Link>
+           </Grid>
             {this.renderVideoList()}
         </Grid>
       </div>
@@ -99,4 +128,4 @@ VideoList.propTypes = {
     classes: PropTypes.object.isRequired
 };
 
-export default withStyles(styles)(VideoList);
+export default connect(mapStateToProps)(withStyles(styles)(VideoList));

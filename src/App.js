@@ -5,8 +5,6 @@ import "./App.css";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import Dashboard from "./components/General/Dashboard";
 import Student from "./components/Main/Student";
-import Teacher from "./components/Main/Teacher";
-import Test from "./components/Main/Test";
 import StudentForm from "./components/Forms/StudentForm";
 import TeacherForm from "./components/Forms/TeacherForm";
 import TestForm from "./components/Forms/TestForm";
@@ -19,7 +17,7 @@ import VideoList from "./components/Main/Videos/List"
 import VideoView from "./components/Main/Videos/View"
 import TestList from "./components/Main/TestCRUD/TestList";
 import TestView from "./components/Main/TestCRUD/TestView";
-
+import Login from "./components/Main/Auth/Login";
 
 toast.configure({
 	position: toast.POSITION.TOP_RIGHT,
@@ -33,6 +31,8 @@ class App extends Component {
 				<CssBaseline>
 					<BrowserRouter>
 						<Route path="/" component={Dashboard} exact />
+						<Route path="/login" component={Login} exact />
+
 						<Route path="/students" component={Student} exact />
 						<Switch>
 							<Route path="/students/view" component={StudentList} exact />

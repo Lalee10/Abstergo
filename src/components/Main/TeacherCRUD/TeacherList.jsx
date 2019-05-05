@@ -64,7 +64,7 @@ class TeacherList extends Component {
                         <ListItem alignItems="flex-start" key={teacher.teacherID}>
 
                                 <ListItemAvatar>
-                                    <Avatar src="/elliot.jpg" />
+                                    <Avatar src={this.state.teacher.imagePath} />
                                 </ListItemAvatar>
                         
                                 <ListItemText

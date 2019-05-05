@@ -6,7 +6,7 @@ import Toolbar from '@material-ui/core/Toolbar';
 import { withStyles } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
 import Card from '@material-ui/core/Card';
-import { CardContent } from "@material-ui/core";
+import { CardContent, Paper } from "@material-ui/core";
 import PropTypes from 'prop-types';
 import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
@@ -14,6 +14,12 @@ import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import axios from "axios";
+import List from '@material-ui/core/List';
+import ListItem from '@material-ui/core/ListItem';
+import ListItemText from '@material-ui/core/ListItemText';
+import Divider from '@material-ui/core/Divider';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faMarker, faUser } from "@fortawesome/free-solid-svg-icons";
 
 const styles = theme => ({
     mainGrid: {
@@ -45,7 +51,16 @@ const styles = theme => ({
 
     appBar: {
 		alignItems: 'center',
-	},
+    },
+    
+    marginBottom: {
+        marginBottom: "16px"
+    },
+
+    leftMargin: {
+        marginLeft: "48px"
+    }
+   
 })
 
 const imgStyle = {margin: "auto", width: 256, height: 256, borderRadius: "20%", transform: "rotate(5deg)"};
@@ -78,6 +93,7 @@ class StudentView extends Component {
         }
 
         return (
+            <div>
             <Grid container spacing={16}  justify="center" alignContent="center" alignItems="center" className={this.props.classes.mainGrid}>
                     
                     <Grid item className={this.props.classes.imageGrid}  xs={12} sm={12} lg = {4} justify="center" alignContent="center">
@@ -95,7 +111,7 @@ class StudentView extends Component {
                                         <Typography component="h1" variant="h2" align="center" color="textPrimary" gutterBottom>
                                             {this.state.student.firstName + " " + this.state.student.lastName}
                                         </Typography>
-                                        <Typography component="h1" variant="h4" align="center" color="textPrimary" gutterBottom>
+                                            <Typography component="h1" variant="h4" align="center" color="textPrimary" gutterBottom>
                                             Grade: {this.state.student.grade}
                                         </Typography>
                                         <Typography component="h1" variant="h4" align="center" color="textPrimary" gutterBottom>
@@ -114,8 +130,54 @@ class StudentView extends Component {
                              </Grid>
                          </Grid>
                     </Grid>
-
                 </Grid>
+                    <br />
+                    <div className={this.props.classes.marginBottom}></div>
+
+             
+                    
+                    <Grid justify="space-between" container spacing ={24} className={this.props.classes.leftMargin}>
+                        <Grid item lg = {3} sm = {6} xs={12}>
+                        <FontAwesomeIcon icon = {faMarker}/> Marks
+                        <List >
+                            {this.state.student.tests.map(test=>{
+                                return (
+                                    <Paper>
+                                        <ListItem divider className={this.props.classes.testCard}>
+                                            <ListItemText 
+                                                primary={test.testName}
+                                                secondary= {  "Marks:    " + test.StudentTest.obtainedMarks +"/" + test.maxMarks }
+                                            />
+                                        </ListItem>
+                                    </Paper>
+                                );
+                            }) }
+                        </List>
+                        </Grid>
+
+                        <Grid item lg = {3} sm = {6} xs={12}>
+                            <FontAwesomeIcon icon = {faUser}/> Teachers
+
+                            <List >
+                            {this.state.student.teachers.map(teacher=>{
+                                return (
+                                    <Paper>
+                                        <ListItem divider className={this.props.classes.testCard}>
+                                            <ListItemText 
+                                                primary={teacher.firstName + " " + teacher.lastName}
+                                            />
+                                        </ListItem>
+                                    </Paper>
+                                );
+                            }) }
+                        </List>
+                        </Grid>
+
+                    </Grid>
+        </div>
+                
+
+                
         );
     }
 
