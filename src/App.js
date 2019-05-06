@@ -16,9 +16,11 @@ import TeacherList from "./components/Main/TeacherCRUD/TeacherList";
 import TeacherView from "./components/Main/TeacherCRUD/TeacherView";
 import Teacher from "./components/Main/Teacher";
 import VideoUpload from "./components/Main/Videos/Upload";
+import Test from "./components/Main/Test";
 import VideoList from "./components/Main/Videos/List";
 import VideoView from "./components/Main/Videos/View";
-import Test from "./components/Main/Test";
+import ActivityList from "./components/Main/Activities/List";
+import ActivityUpload from "./components/Main/Activities/Upload";
 import TestList from "./components/Main/TestCRUD/TestList";
 import TestView from "./components/Main/TestCRUD/TestView";
 import Login from "./components/Main/Auth/Login";
@@ -93,6 +95,15 @@ class App extends Component {
 							<Switch>
 								<Route path="/videos/upload" component={AuthHOC(VideoUpload, "teacher", this)} exact />
 								<Route path="/videos/:id" component={VideoView} exact />
+							</Switch>
+
+							<Route path="/activities" component={AuthHOC(ActivityList, null, this)} exact />
+							<Switch>
+								<Route
+									path="/activities/upload"
+									component={AuthHOC(ActivityUpload, null, this)}
+									exact
+								/>
 							</Switch>
 
 							<Route path="/tests" component={AuthHOC(Test, "teacher", this)} exact />

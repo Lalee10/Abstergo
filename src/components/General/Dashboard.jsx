@@ -8,14 +8,15 @@ import Fade from "@material-ui/core/Fade";
 import { withStyles } from "@material-ui/core/styles";
 import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faUserGraduate, faBook, faChalkboardTeacher, faVideo, faIdCard } from "@fortawesome/free-solid-svg-icons";
+import {
+	faCubes,
+	faUserGraduate,
+	faBook,
+	faChalkboardTeacher,
+	faVideo,
+	faIdCard,
+} from "@fortawesome/free-solid-svg-icons";
 import MyAppBar from "./AppBar";
-
-function mapStateToProps(state) {
-	return {
-		user: state.user,
-	};
-}
 
 const styles = theme => ({
 	mainGrid: {
@@ -122,6 +123,36 @@ class Dashboard extends React.Component {
 							<span />
 						)}
 
+						{this.props.user.role === "admin" ? (
+							<Grid className={this.props.classes.cardGrid} item sm={12} md={4} lg={3}>
+								<Link to="/users/form" className={this.props.classes.link}>
+									<Card className={this.props.classes.card}>
+										<CardContent>
+											<Typography
+												component="h1"
+												variant="h2"
+												align="center"
+												color="textPrimary"
+												gutterBottom
+											>
+												<FontAwesomeIcon
+													className={this.props.classes.icon}
+													component="h1"
+													variant="h1"
+													align="center"
+													icon={faUserPlus}
+												/>
+												<br />
+												Add User
+											</Typography>
+										</CardContent>
+									</Card>
+								</Link>
+							</Grid>
+						) : (
+							<span />
+						)}
+
 						{this.props.user.role === "teacher" ? (
 							<Grid className={this.props.classes.cardGrid} item sm={12} md={4} lg={3}>
 								<Link to="/tests" className={this.props.classes.link}>
@@ -143,6 +174,36 @@ class Dashboard extends React.Component {
 												/>
 												<br />
 												Tests
+											</Typography>
+										</CardContent>
+									</Card>
+								</Link>
+							</Grid>
+						) : (
+							<span />
+						)}
+
+						{this.props.user ? (
+							<Grid className={this.props.classes.cardGrid} item sm={12} md={4} lg={3}>
+								<Link to="/activities/" className={this.props.classes.link}>
+									<Card className={this.props.classes.card}>
+										<CardContent>
+											<Typography
+												component="h1"
+												variant="h2"
+												align="center"
+												color="textPrimary"
+												gutterBottom
+											>
+												<FontAwesomeIcon
+													className={this.props.classes.icon}
+													component="h1"
+													variant="h1"
+													align="center"
+													icon={faBook}
+												/>
+												<br />
+												Activities
 											</Typography>
 										</CardContent>
 									</Card>
