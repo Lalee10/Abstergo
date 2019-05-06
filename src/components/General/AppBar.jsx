@@ -49,7 +49,7 @@ class MyAppBar extends Component {
 								onClick={async () => {
 									this.setState({ loading: true });
 									try {
-										await Axios.post("/logout");
+										await Axios.get("/logout");
 										this.setState({ loading: false }, () => {
 											history.push("/login");
 										});

@@ -11,6 +11,7 @@ import Typography from "@material-ui/core/Typography";
 import withStyles from "@material-ui/core/styles/withStyles";
 import LinearProgress from "@material-ui/core/LinearProgress";
 import axios from "axios";
+import { toast } from "react-toastify";
 
 const styles = theme => ({
 	main: {
@@ -60,21 +61,21 @@ class Login extends Component {
 	onSubmit = async e => {
 		this.setState({ loading: true });
 		const data = { username: this.state.username, password: this.state.password };
-		console.log("DATA", data);
 		const response = await axios.post("/login", data);
-		console.log("RESPONSE", response);
-		console.log("ROLE", response.data.role);
 		if (response.status === 200) {
 			/**
 			 *  Set user state and redirect to dashboard
 			 */
-			this.props.appRef.setState({ user: response.data }, () => {
+			toast.success("Login Successful");
+			this.props.appRef.setState({ user: response.data, loading: false }, () => {
 				this.props.history.push("/");
 			});
 		} else {
 			/**
 			 *  Flash error
 			 */
+			toast.error("Login failed!");
+			this.setState({ loading: false });
 		}
 	};
 
