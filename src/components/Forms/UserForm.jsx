@@ -3,12 +3,14 @@ import { withStyles } from "@material-ui/core/styles";
 import Button from "@material-ui/core/Button";
 import FormCard from "../General/FormCard";
 import { renderTextField, formStyles, renderDropdownSelect } from "../../helpers/Form";
-import { readOptions, createEntity } from "../../helpers/crud";
+import { readOptions } from "../../helpers/crud";
+import Axios from "axios";
+import { toast } from "react-toastify";
 
 class UserForm extends React.Component {
 	state = {
-		username: "",
-		password: "",
+		abcd: "",
+		efgh: "",
 		role: "",
 		studentID: "",
 		teacherID: "",
@@ -17,11 +19,29 @@ class UserForm extends React.Component {
 		teachers: [],
 	};
 
-	getFormValues = () => {
+	handleSubmit = async () => {
+		this.setState({ loading: true });
 		const { username, password, role, studentID, teacherID } = this.state;
-		if (role === "student") return { username, password, role, studentID };
-		else if (role === "teacher") return { username, password, role, teacherID };
-		else return { username, password, role };
+		let data = {
+			username,
+			password,
+			role,
+		};
+		if (role === "student") {
+			data.studentID = studentID;
+		}
+		if (role === "teacher") {
+			data.teacherID = teacherID;
+		}
+
+		const response = await Axios.post("/signup", data);
+		if (response.status === 200) {
+			toast.success("User created successfully");
+			this.props.history.push("/login");
+		} else {
+			toast.error("There was an error registering the user");
+		}
+		this.setState({ loading: false });
 	};
 
 	componentDidMount = async () => {
@@ -38,23 +58,7 @@ class UserForm extends React.Component {
 
 		return (
 			<FormCard formTitle="User Form" loading={loading}>
-				<form
-					onSubmit={async e => {
-						e.preventDefault();
-						let success = await createEntity(this, this.getFormValues(), "signup");
-						if (success)
-							this.setState({
-								username: "",
-								password: "",
-								role: "",
-								studentID: "",
-								teacherID: "",
-								loading: false,
-							});
-					}}
-					className={classes.container}
-					autoComplete="disabled"
-				>
+				<form className={classes.container} autoComplete="disabled">
 					{renderTextField(this, "username")}
 					{renderTextField(this, "password", "password")}
 					{renderDropdownSelect(this, "role", [

@@ -1,8 +1,6 @@
 import React, { Component } from "react";
 import axios from "axios";
 import PropTypes from "prop-types";
-import AppBar from "@material-ui/core/AppBar";
-import Toolbar from "@material-ui/core/Toolbar";
 import { withStyles } from "@material-ui/core/styles";
 import Grid from "@material-ui/core/Grid";
 import Typography from "@material-ui/core/Typography";
@@ -11,6 +9,7 @@ import { CardContent } from "@material-ui/core";
 import Button from "@material-ui/core/Button";
 import Grow from "@material-ui/core/Grow";
 import TextField from "@material-ui/core/TextField";
+import MyAppBar from "../../General/AppBar";
 
 const styles = theme => ({
 	mainGrid: {
@@ -100,13 +99,7 @@ class Upload extends Component {
 	render() {
 		return (
 			<div>
-				<AppBar position="static" className={this.props.classes.appBar}>
-					<Toolbar>
-						<Typography variant="h6" color="inherit" align="center" noWrap>
-							Upload Video
-						</Typography>
-					</Toolbar>
-				</AppBar>
+				<MyAppBar appBarTitle="Upload Video" />
 				<Grid className={this.props.classes.mainGrid} spacing={16} justify="center" alignContent="center">
 					<Card>
 						<CardContent>

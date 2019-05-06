@@ -3,7 +3,7 @@ import { withStyles } from "@material-ui/core/styles";
 import Button from "@material-ui/core/Button";
 import FormCard from "../General/FormCard";
 import { renderTextField, formStyles } from "../../helpers/Form";
-import { createEntity, readEntity, updateEntity } from "../../helpers/crud";
+import { readEntity, updateEntity, createEntityDesi } from "../../helpers/crud";
 
 const defaultValues = {
 	testName: "",
@@ -24,8 +24,8 @@ class TestForm extends React.Component {
 		if (match.params.id) {
 			this.setState({ loading: true });
 			const response = await readEntity("test", match.params.id);
-			if (response.data) {
-				const { testName, maxMarks, topic } = response.data;
+			if (response.testID) {
+				const { testName, maxMarks, topic } = response;
 				this.setState({
 					testName,
 					maxMarks,
@@ -40,7 +40,7 @@ class TestForm extends React.Component {
 	};
 
 	render() {
-		const { classes } = this.props;
+		const { classes, history, match } = this.props;
 		const { loading, formTask } = this.state;
 
 		return (
@@ -51,14 +51,10 @@ class TestForm extends React.Component {
 
 						let success;
 						if (formTask === "create") {
-							success = await createEntity(this, this.state, "test");
+							success = await createEntityDesi(this, this.state, "test");
 						} else {
-							success = await updateEntity(
-								this,
-								this.state,
-								{ testId: this.props.match.params.id },
-								"test"
-							);
+							success = await updateEntity(this, this.state, { testId: match.params.id }, "test");
+							history.push(`/tests/${match.params.id}`);
 						}
 
 						if (success) this.setState({ ...defaultValues, loading: false, formTask: "create" });

@@ -46,7 +46,7 @@ export const renderTextField = (context, name, type) => (
 		onChange={handleChange(context, `${name}`)}
 		margin="normal"
 		type={type ? type : "text"}
-		autoComplete="off"
+		autoComplete="disabled"
 		required={true}
 	/>
 );
@@ -61,7 +61,7 @@ export const renderNumberField = (context, name) => (
 		onChange={handleChange(context, `${name}`)}
 		margin="normal"
 		type="number"
-		autoComplete="off"
+		autoComplete="disabled"
 		required={true}
 	/>
 );
@@ -69,10 +69,15 @@ export const renderNumberField = (context, name) => (
 export const renderFileUploadField = (context, name) => (
 	<TextField
 		id={camelToKebab(name)}
+		label={camelToTitle(name)}
 		className={context.props.classes.textField}
 		onChange={handleFileChange(context, `${name}`)}
 		margin="normal"
 		type="file"
+		InputLabelProps={{
+			shrink: true,
+		}}
+		variant="outlined"
 		required={true}
 	/>
 );

@@ -18,6 +18,7 @@ import Teacher from "./components/Main/Teacher";
 import VideoUpload from "./components/Main/Videos/Upload";
 import VideoList from "./components/Main/Videos/List";
 import VideoView from "./components/Main/Videos/View";
+import Test from "./components/Main/Test";
 import TestList from "./components/Main/TestCRUD/TestList";
 import TestView from "./components/Main/TestCRUD/TestView";
 import Login from "./components/Main/Auth/Login";
@@ -31,10 +32,6 @@ toast.configure({
 	position: toast.POSITION.TOP_RIGHT,
 	autoClose: 3000,
 });
-
-function mapStateToProps(state) {
-	return { user: state.user };
-}
 
 class App extends Component {
 	state = { loading: true, user: null };
@@ -50,7 +47,6 @@ class App extends Component {
 				if (response.status === 200) {
 					this.setState({ user: response.data });
 				}
-				console.log("SETTING LOADING FALSE");
 				this.setState({ loading: false });
 			})
 			.catch(() => {
@@ -78,7 +74,7 @@ class App extends Component {
 									component={AuthHOC(StudentForm, "admin", this)}
 									exact
 								/>
-								<Route path="/students/tests" component={AuthHOC(StudentView, "admin", this)} exact />
+								<Route path="/students/tests" component={AuthHOC(StudentTests, "admin", this)} exact />
 							</Switch>
 
 							<Route path="/teachers" component={Teacher} exact />
@@ -99,8 +95,9 @@ class App extends Component {
 								<Route path="/videos/:id" component={VideoView} exact />
 							</Switch>
 
-							<Route path="/tests" component={AuthHOC(TestList, "teacher", this)} exact />
+							<Route path="/tests" component={AuthHOC(Test, "teacher", this)} exact />
 							<Switch>
+								<Route path="/tests/view" component={AuthHOC(TestList, "teacher", this)} exact />
 								<Route path="/tests/form" component={AuthHOC(TestForm, "teacher", this)} exact />
 								<Route path="/tests/:id" component={AuthHOC(TestView, "teacher", this)} exact />
 								<Route path="/tests/form/:id" component={AuthHOC(TestForm, "teacher", this)} exact />

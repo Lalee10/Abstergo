@@ -1,6 +1,4 @@
 import React, { Component } from "react";
-import AppBar from "@material-ui/core/AppBar";
-import Toolbar from "@material-ui/core/Toolbar";
 import Button from "@material-ui/core/Button";
 import { withStyles } from "@material-ui/core/styles";
 import Grid from "@material-ui/core/Grid";
@@ -15,6 +13,7 @@ import { Link } from "react-router-dom";
 import { throws } from "assert";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPlus } from "@fortawesome/free-solid-svg-icons";
+import MyAppBar from "../../General/AppBar";
 
 const styles = theme => ({
 	mainGrid: {
@@ -108,14 +107,7 @@ class VideoList extends Component {
 	render() {
 		return (
 			<div>
-				<AppBar position="static" className={this.props.classes.appBar}>
-					<Toolbar>
-						<Typography variant="h6" color="inherit" align="center" noWrap>
-							Videos
-						</Typography>
-					</Toolbar>
-				</AppBar>
-
+				<MyAppBar appBarTitle="Videos" />
 				<Grid container spacing={16} justify="left" alignContent="left" className={this.props.classes.mainGrid}>
 					{this.props.user.role === "teacher" ? (
 						<Grid item lg={12} style={{ textAlign: "center" }}>

@@ -25,8 +25,8 @@ class TeacherForm extends React.Component {
 		if (match.params.id) {
 			this.setState({ loading: true });
 			const response = await readEntity("teacher", match.params.id);
-			if (response.data) {
-				const { firstName, lastName, gender } = response.data;
+			if (response.teacherID) {
+				const { firstName, lastName, gender } = response;
 				this.setState({
 					firstName,
 					lastName,
@@ -41,7 +41,7 @@ class TeacherForm extends React.Component {
 	};
 
 	render() {
-		const { classes } = this.props;
+		const { classes, history, match } = this.props;
 		const { loading, formTask } = this.state;
 
 		return (
@@ -54,12 +54,8 @@ class TeacherForm extends React.Component {
 						if (formTask === "create") {
 							success = await createEntity(this, this.state, "teacher");
 						} else {
-							success = await updateEntity(
-								this,
-								this.state,
-								{ teacherId: this.props.match.params.id },
-								"teacher"
-							);
+							success = await updateEntity(this, this.state, { teacherId: match.params.id }, "teacher");
+							history.push(`/teachers/${match.params.id}`);
 						}
 
 						if (success) this.setState({ ...defaultValues, loading: false, formTask: "create" });
@@ -74,7 +70,7 @@ class TeacherForm extends React.Component {
 						{ value: "male", label: "Male" },
 						{ value: "female", label: "Female" },
 					])}
-					{renderFileUploadField(this, "file")}
+					{formTask === "create" && renderFileUploadField(this, "file")}
 
 					<Button
 						disabled={loading}

@@ -2,13 +2,12 @@ import React from "react";
 import Grid from "@material-ui/core/Grid";
 import Card from "@material-ui/core/Card";
 import Typography from "@material-ui/core/Typography";
-import AppBar from "@material-ui/core/AppBar";
-import Toolbar from "@material-ui/core/Toolbar";
 import { CardContent } from "@material-ui/core";
 import { withStyles } from "@material-ui/core/styles";
 import Fade from "@material-ui/core/Fade";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Link } from "react-router-dom";
+import AppBar from "../General/AppBar";
 
 const styles = theme => ({
 	mainGrid: {
@@ -50,13 +49,7 @@ class Content extends React.Component {
 		const { entity, link, addIcon, viewIcon } = this.props;
 		return (
 			<div>
-				<AppBar position="static" className={this.props.classes.appBar}>
-					<Toolbar>
-						<Typography variant="h6" color="inherit" align="center" noWrap>
-							{entity}
-						</Typography>
-					</Toolbar>
-				</AppBar>
+				<AppBar appBarTitle={entity} />
 
 				<Grid
 					className={this.props.classes.mainGrid}
