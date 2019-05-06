@@ -60,11 +60,11 @@ class TeacherList extends Component {
         return this.state.teachers.map((teacher, index)=>{
             return (
                 <Fade in={true} timeout={500*(index+1)}>
-                    <Link to={"/api/teacher/"+teacher.teacherID}>
+                    <Link to={"/teachers/"+teacher.teacherID} style = {{textDecoration: "none"}}>
                         <ListItem alignItems="flex-start" key={teacher.teacherID}>
 
                                 <ListItemAvatar>
-                                    <Avatar src={this.state.teacher.imagePath} />
+                                    <Avatar src={teacher.imagePath} />
                                 </ListItemAvatar>
                         
                                 <ListItemText

@@ -66,6 +66,7 @@ class Login extends Component {
 		console.log("DATA", data);
 		const response = await axios.post("/login", data);
 		console.log("RESPONSE", response);
+		console.log("ROLE", response.data.role);
 		if (response.status === 200) {
 			/**
 			 *  Set user state and redirect to dashboard
@@ -94,7 +95,7 @@ class Login extends Component {
 					<Typography component="h1" variant="h5">
 						Abstergo
 					</Typography>
-					<form onSubmit={() => console.log(username, password)} className={classes.form}>
+					<form className={classes.form}>
 						<FormControl margin="normal" required fullWidth>
 							<InputLabel htmlFor="username">Username</InputLabel>
 							<Input

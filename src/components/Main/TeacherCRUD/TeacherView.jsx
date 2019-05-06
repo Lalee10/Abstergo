@@ -98,12 +98,7 @@ class TeacherView extends Component {
                                         <Typography component="h1" variant="h4" align="center" color="textPrimary" gutterBottom>
                                             Gender: {this.state.teacher.gender}
                                         </Typography>
-                                        <Typography component="h1" variant="h4" align="center" color="textPrimary" gutterBottom>
-                                            Age: {this.state.teacher.age}
-                                        </Typography>
-                                        <Typography component="h1" variant="h4" align="center" color="textPrimary" gutterBottom>
-                                            Gender: {this.state.teacher.gender}
-                                        </Typography>
+                                      
                                     </CardContent>
                                 </Card>
                             </Grid>
@@ -132,7 +127,7 @@ class TeacherView extends Component {
                     <DialogContent>
                         <DialogContentText id="alert-dialog-description">
 
-                            {this.state.teacher ? `Are you sure you want to delete ${this.state.teacher.firstName}  ${this.state.student.lastName}?` : ""}
+                            {this.state.teacher ? `Are you sure you want to delete ${this.state.teacher.firstName}  ${this.state.teacher.lastName}?` : ""}
                         </DialogContentText>
                     </DialogContent>
                     <DialogActions>

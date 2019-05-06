@@ -4,6 +4,7 @@ import Toolbar from '@material-ui/core/Toolbar';
 import Button from "@material-ui/core/Button"
 import { withStyles } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
+import Fade from '@material-ui/core/Fade';
 import Typography from '@material-ui/core/Typography';
 import { Card } from '@material-ui/core';
 import { CardContent } from "@material-ui/core";
@@ -11,7 +12,6 @@ import { CardMedia } from "@material-ui/core";
 import axios from "axios";
 import PropTypes from 'prop-types';
 import { Link } from "react-router-dom"
-import { connect } from "react-redux";
 import { throws } from 'assert';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPlus } from '@fortawesome/free-solid-svg-icons';
@@ -42,9 +42,7 @@ const styles = theme => ({
 
 const imgStyle = {width: "100%", height: 200}
 
-function mapStateToProps(state){
-    return {user : state.user}
-}
+
 
 class VideoList extends Component {
 
@@ -74,8 +72,10 @@ class VideoList extends Component {
             return <div></div>
         }
         return (
-            this.state.videos.map(video=>{ return(
+            this.state.videos.map((video, i)=>{ return(
+        <Fade in={true} timeout={500*(i+1)}>
         <Grid style={{textAlign:"center"}} item xs = {12} sm = {6} md = {4} lg = {3} key={video.videoID}>
+           
             <Link to={"/videos/"+video.videoID} className = {this.props.classes.link}> 
                 <Card>
                     <CardMedia className={this.props.cardMedia}>
@@ -89,8 +89,9 @@ class VideoList extends Component {
                 </Card>
             </Link>
 
-            {!this.props.user  ? (<Button  onClick={()=> this.handleDelete(video.videoID)} style={{marginTop:"8px"}} variant="contained" color="secondary">Delete</Button>) : <div></div>}
-        </Grid>)
+            {this.props.user.role==="admin"  ? (<Button  onClick={()=> this.handleDelete(video.videoID)} style={{marginTop:"8px"}} variant="contained" color="secondary">Delete</Button>) : <div></div>}
+        </Grid>
+        </Fade>)
             })
         )
     }
@@ -102,21 +103,24 @@ class VideoList extends Component {
     <AppBar position="static" className={this.props.classes.appBar}>
         <Toolbar>
             <Typography variant="h6" color="inherit" align="center" noWrap>
-                Videos
+                Videos 
             </Typography>
         </Toolbar>
     </AppBar>
 
+        
+
         <Grid container spacing = {16} justify="left" alignContent="left" className={this.props.classes.mainGrid}>
-           <Grid item lg={12} style={{textAlign:"center"}}>
+           {this.props.user.role === "teacher" ? (<Grid item lg={12} style={{textAlign:"center"}}>
            <Link to ="/videos/upload" style={{textDecoration: "none"}}>
-                <Button variant="contained" color="primary">
-                    <FontAwesomeIcon icon={faPlus} style={{marginRight: "8px"}}/>
-                
-                    Add New Video
-                </Button>
-            </Link>
-           </Grid>
+                   <Button variant="contained" color="primary">
+                       <FontAwesomeIcon icon={faPlus} style={{marginRight: "8px"}}/>
+                   
+                       Add New Video
+                   </Button>
+               </Link>
+          </Grid>) : (<span></span>)}
+            
             {this.renderVideoList()}
         </Grid>
       </div>
@@ -128,4 +132,4 @@ VideoList.propTypes = {
     classes: PropTypes.object.isRequired
 };
 
-export default connect(mapStateToProps)(withStyles(styles)(VideoList));
+export default (withStyles(styles)(VideoList));

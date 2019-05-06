@@ -10,19 +10,26 @@ import { withStyles } from "@material-ui/core/styles";
 import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faUserGraduate, faBook, faDizzy } from "@fortawesome/free-solid-svg-icons";
+import { connect } from "react-redux";
+
+function mapStateToProps(state){
+	return {
+		user: state.user
+	}
+}
 
 const styles = theme => ({
 	mainGrid: {
-		position: "absolute",
-		top: "20%",
+		marginTop: "64px",
+		margin: "auto"
 	},
 
 	cardGrid: {
-		height: "100%",
+		
 	},
 
 	card: {
-		height: "100%",
+		
 		transition: "1s",
 		boxShadow: "3px 3px #888888",
 		cursor: "pointer",
@@ -47,6 +54,12 @@ const styles = theme => ({
 });
 
 class Dashboard extends React.Component {
+
+	componentDidMount() {
+		console.log(this.props.user);
+		console.log("DASHBOARD ROLE", this.props.user.role);
+	}
+
 	render() {
 		return (
 			<div>
@@ -64,6 +77,8 @@ class Dashboard extends React.Component {
 					justify="center"
 					alignContent="center"
 				>
+
+				{this.props.user.role === "admin" ? (
 					<Grid className={this.props.classes.cardGrid} item sm={12} md={4} lg={3}>
 						<Link to="/students" className={this.props.classes.link}>
 							<Card className={this.props.classes.card}>
@@ -89,7 +104,10 @@ class Dashboard extends React.Component {
 							</Card>
 						</Link>
 					</Grid>
+				) : (<span></span>) }
+					
 
+				{this.props.user.role === "admin" ? (
 					<Grid className={this.props.classes.cardGrid} item sm={12} md={4} lg={3}>
 						<Link to="/teachers" className={this.props.classes.link}>
 							<Card className={this.props.classes.card}>
@@ -115,7 +133,10 @@ class Dashboard extends React.Component {
 							</Card>
 						</Link>
 					</Grid>
+				): (<span></span>)}
+					
 
+				{this.props.user.role==="teacher" ? (
 					<Grid className={this.props.classes.cardGrid} item sm={12} md={4} lg={3}>
 						<Link to="/tests" className={this.props.classes.link}>
 							<Card className={this.props.classes.card}>
@@ -141,10 +162,67 @@ class Dashboard extends React.Component {
 							</Card>
 						</Link>
 					</Grid>
+
+				) : (<span></span>)}
+					
+				{this.props.user  ? (
+					<Grid className={this.props.classes.cardGrid} item sm={12} md={4} lg={3}>
+						<Link to="/videos/" className={this.props.classes.link}>
+							<Card className={this.props.classes.card}>
+								<CardContent>
+									<Typography
+										component="h1"
+										variant="h2"
+										align="center"
+										color="textPrimary"
+										gutterBottom
+									>
+										<FontAwesomeIcon
+											className={this.props.classes.icon}
+											component="h1"
+											variant="h1"
+											align="center"
+											icon={faBook}
+										/>
+										<br />
+										Videos
+									</Typography>
+								</CardContent>
+							</Card>
+						</Link>
+					</Grid>
+				) : (<span></span>)}
+
+
+				{this.props.user.role === "student"  ? (
+					<Grid className={this.props.classes.cardGrid} item sm={12} md={4} lg={3}>
+						<Link to={"/students/" + this.props.user.studentID} className={this.props.classes.link}>
+							<Card className={this.props.classes.card}>
+								<CardContent>
+									<Typography
+										component="h1"
+										variant="h2"
+										align="center"
+										color="textPrimary"
+										gutterBottom
+									>
+										<FontAwesomeIcon
+											className={this.props.classes.icon}
+											component="h1"
+											variant="h1"
+											align="center"
+											icon={faBook}
+										/>
+										<br />
+										My Profile
+									</Typography>
+								</CardContent>
+							</Card>
+						</Link>
+					</Grid>
+				) : (<span></span>)}
 				</Grid>
 
-					
-			
 			
 			</div>)
 			
@@ -155,4 +233,4 @@ Dashboard.propTypes = {
 	classes: PropTypes.object.isRequired,
 };
 
-export default withStyles(styles)(Dashboard);
+export default (withStyles(styles)(Dashboard));

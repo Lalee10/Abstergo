@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import { connect } from 'react-redux';
 import Typography from "@material-ui/core/Typography";
 import { stat } from 'fs';
 
@@ -10,40 +9,55 @@ function mapStateToProps(state) {
 }
 
 
-export default function Auth(Component, role) {
+export default function AuthFunction(Component, role, user) {
 
-    renderComponent = (props) => {
-        if (!props.user)  {
-            return(
-            <Typography variant ="h6" align="center" >
-                You must be logged in to access this page.
-            </Typography>);
-        }
+   
 
-        if (!props.user.role === role) {
-            return(
-                <Typography variant ="h6" align="center" >
-                    You do not have privilege to access this page.
-                </Typography>);
-        }
-
-        return (
-            <Component />
-        )
-
-    }
-
-    Auth = (props) =>{
+    class Auth extends Component {
         
-            return (<div>
-                {this.renderComponent(props)};
+
+
+        renderComponent = () => {
+            
+            // if (!user)  {
+            //     this.props.history.push("/login")
+            //     return(
+            //     <Typography variant ="h6" align="center" >
+            //         You must be logged in to access this page.
+            //     </Typography>);
+            // }
+    
+            // if (role){
+            //     if (!user.role === role) {
+            //         return(
+            //             <Typography variant ="h6" align="center" >
+            //                 You do not have privilege to access this page.
+            //             </Typography>);
+            //     }
+            // }
+            
+    
+            return (
+                <Component {...this.props}  />
+            )
+    
+        }
+        
+        render(){
+            return (
+                
+                <div>
+                {this.renderComponent()}
                 </div>
             );
         }
-        return connect(
-            mapStateToProps,
-        )(Auth);
+            
+        
     }
+
+    return Auth
+
+}
     
     
 
