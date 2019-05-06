@@ -11,8 +11,7 @@ import Typography from "@material-ui/core/Typography";
 import withStyles from "@material-ui/core/styles/withStyles";
 import LinearProgress from "@material-ui/core/LinearProgress";
 import axios from "axios";
-import {connect } from "react-redux";
-import {login} from "../../../actions/auth";
+
 
 const styles = theme => ({
 	main: {
@@ -71,8 +70,10 @@ class Login extends Component {
 			/**
 			 *  Set user state and redirect to dashboard
 			 */
-			this.props.login(response.data);
+			this.props.appRef.setState({user: response.data}, ()=> {
 			this.props.history.push("/");
+			});
+			
 		}
 		else {
 			 /**
@@ -127,4 +128,4 @@ class Login extends Component {
 	}
 }
 
-export default connect(null, {login})(withStyles(styles)(Login));
+export default (withStyles(styles)(Login));

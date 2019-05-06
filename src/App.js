@@ -22,10 +22,9 @@ import TestList from "./components/Main/TestCRUD/TestList";
 import TestView from "./components/Main/TestCRUD/TestView";
 import Login from "./components/Main/Auth/Login";
 import AuthHOC from "./components/AuthHOC/Auth";
-import { login , asyncGetUser} from "./actions/auth";
-import { connect } from "react-redux";
 import axios from "axios";
 import history from "./components/history.js";
+import CircularProgress from "@material-ui/core/CircularProgress";
 
 
 
@@ -40,60 +39,64 @@ function mapStateToProps(state){
 
 class App extends Component {
 
-	state = {loading: false}
+	state = {loading: true,
+					user: null}
 
-	componentWillMount(){
-		this.setState({loading: true})
+	componentDidMount(){
 		this.getUser();
 	}
 
 	getUser = () => {
-		this.setState({loading: true})
+		
 		axios.get("/user").then(response => {
 			if (response.status === 200){
-				this.props.login(response.data);
+				this.setState({user:response.data});
 			}
-		this.setState({loading: false});
+			console.log("SETTING LOADING FALSE");
+			this.setState({loading: false});
+		}).catch(()=>{
+			history.push("/login");
+			this.setState({loading: false});
 		})
 	}
 
 
 	renderApp = () => {
-		if (this.props.user){
+		if (this.state.user){
 			return (
 				<div>
 				<CssBaseline>
 					<Router history={history}>
-						<Route path="/" component={AuthHOC(Dashboard, null, this.props.user)} exact />
-						<Route path="/login" component={Login} exact />
+						<Route path="/" component={AuthHOC(Dashboard, null, this, this)} exact />
+						<Route path="/login" render = {()=> <Login appRef={this} history={history}/>} exact />
 
-						<Route path="/students" component={AuthHOC(Student, "admin", this.props.user)} exact />
+						<Route path="/students" component={AuthHOC(Student, "admin", this)} exact />
 						<Switch>
-							<Route path="/students/view" component={AuthHOC(StudentList, "admin")} exact />
-							<Route path="/students/form" component={AuthHOC(StudentForm, "admin")} exact />
-							<Route path="/students/:id" component={AuthHOC(StudentView, "admin")} exact />
-							<Route path="/students/form/:id" component={AuthHOC(StudentForm, "admin")} exact />
+							<Route path="/students/view" component={AuthHOC(StudentList, "admin", this)} exact />
+							<Route path="/students/form" component={AuthHOC(StudentForm, "admin", this)} exact />
+							<Route path="/students/:id" component={AuthHOC(StudentView, "admin", this)} exact />
+							<Route path="/students/form/:id" component={AuthHOC(StudentForm, "admin", this)} exact />
 						</Switch>
 
 						<Route path="/teachers" component={Teacher} exact />
 						<Switch>
-							<Route path="/teachers/view" component={AuthHOC(TeacherList, "admin")} exact />
-							<Route path="/teachers/form" component={AuthHOC(TeacherForm, "admin")} exact />
-							<Route path="/teachers/:id" component={AuthHOC(TeacherView, "admin")} exact />
-							<Route path="/teachers/form/:id" component={AuthHOC(TeacherForm, "admin")} exact />
+							<Route path="/teachers/view" component={AuthHOC(TeacherList, "admin", this)} exact />
+							<Route path="/teachers/form" component={AuthHOC(TeacherForm, "admin", this)} exact />
+							<Route path="/teachers/:id" component={AuthHOC(TeacherView, "admin", this)} exact />
+							<Route path="/teachers/form/:id" component={AuthHOC(TeacherForm, "admin", this)} exact />
 						</Switch>
 
-						<Route path = "/videos" component={AuthHOC(VideoList)} exact />
+						<Route path = "/videos" component={AuthHOC(VideoList, this)} exact />
 						<Switch>
-							<Route path = "/videos/upload" component={AuthHOC(VideoUpload, "teacher")} exact />
+							<Route path = "/videos/upload" component={AuthHOC(VideoUpload, "teacher", this)} exact />
 							<Route path = "/videos/:id" component={VideoView} exact />
 						</Switch>
 						
-						<Route path = "/tests" component={AuthHOC(TestList, "teacher")} exact />
+						<Route path = "/tests" component={AuthHOC(TestList, "teacher", this)} exact />
 						<Switch>
-							<Route path="/tests/form" component={AuthHOC(TestForm, "teacher")} exact />
-							<Route path = "/tests/:id" component={AuthHOC(TestView, "teacher")} exact />
-							<Route path="/tests/form/:id" component={AuthHOC(TestForm, "teacher")} exact />
+							<Route path="/tests/form" component={AuthHOC(TestForm, "teacher", this)} exact />
+							<Route path = "/tests/:id" component={AuthHOC(TestView, "teacher", this)} exact />
+							<Route path="/tests/form/:id" component={AuthHOC(TestForm, "teacher", this)} exact />
 						</Switch>
 
 					
@@ -112,18 +115,26 @@ class App extends Component {
 		
 		}
 
-		history.push("/login")
+		return (
+			<Router history={history}>
+				<Route path="/login" render = {()=> <Login appRef={this} history={history}/>}  exact />
+			</Router>
+			);
+
 	}
 
 	render() {
 		
 		return (
 			<div>
-				{ this.state.loading ? (<span>Loading...</span>):this.renderApp() }
+				{ this.state.loading ? (
+					<div style={{width: '100vw', height: "100vh", display:"flex", alignItems: "center", justifyContent:"center"}}>
+						<CircularProgress />
+					</div>) : (this.renderApp()) }
 			</div>
 		);
 		
 	}
 }
 
-export default connect(mapStateToProps, {login, asyncGetUser})(App);
+export default (App);
