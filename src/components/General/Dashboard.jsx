@@ -9,7 +9,7 @@ import Typography from "@material-ui/core/Typography";
 import { withStyles } from "@material-ui/core/styles";
 import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faUserGraduate, faBook, faDizzy } from "@fortawesome/free-solid-svg-icons";
+import { faUserGraduate, faBook, faDizzy, faUserPlus, faVideo, faCubes } from "@fortawesome/free-solid-svg-icons";
 import { connect } from "react-redux";
 
 function mapStateToProps(state){
@@ -74,8 +74,8 @@ class Dashboard extends React.Component {
 					className={this.props.classes.mainGrid}
 					container
 					spacing={16}
-					justify="center"
-					alignContent="center"
+					justify="left"
+					alignContent="left"
 				>
 
 				{this.props.user.role === "admin" ? (
@@ -134,6 +134,34 @@ class Dashboard extends React.Component {
 						</Link>
 					</Grid>
 				): (<span></span>)}
+
+				{this.props.user.role === "admin" ? (
+					<Grid className={this.props.classes.cardGrid} item sm={12} md={4} lg={3}>
+						<Link to="/users/form" className={this.props.classes.link}>
+							<Card className={this.props.classes.card}>
+								<CardContent>
+									<Typography
+										component="h1"
+										variant="h2"
+										align="center"
+										color="textPrimary"
+										gutterBottom
+									>
+										<FontAwesomeIcon
+											className={this.props.classes.icon}
+											component="h1"
+											variant="h1"
+											align="center"
+											icon={faUserPlus}
+										/>
+										<br />
+										Add User
+									</Typography>
+								</CardContent>
+							</Card>
+						</Link>
+					</Grid>
+				): (<span></span>)}
 					
 
 				{this.props.user.role==="teacher" ? (
@@ -153,7 +181,7 @@ class Dashboard extends React.Component {
 											component="h1"
 											variant="h1"
 											align="center"
-											icon={faBook}
+											icon={faCubes}
 										/>
 										<br />
 										Tests
@@ -182,10 +210,38 @@ class Dashboard extends React.Component {
 											component="h1"
 											variant="h1"
 											align="center"
-											icon={faBook}
+											icon={faVideo}
 										/>
 										<br />
 										Videos
+									</Typography>
+								</CardContent>
+							</Card>
+						</Link>
+					</Grid>
+				) : (<span></span>)}
+
+				{this.props.user  ? (
+					<Grid className={this.props.classes.cardGrid} item sm={12} md={4} lg={3}>
+						<Link to="/activities/" className={this.props.classes.link}>
+							<Card className={this.props.classes.card}>
+								<CardContent>
+									<Typography
+										component="h1"
+										variant="h2"
+										align="center"
+										color="textPrimary"
+										gutterBottom
+									>
+										<FontAwesomeIcon
+											className={this.props.classes.icon}
+											component="h1"
+											variant="h1"
+											align="center"
+											icon={faBook}
+										/>
+										<br />
+										Activities
 									</Typography>
 								</CardContent>
 							</Card>
@@ -211,7 +267,7 @@ class Dashboard extends React.Component {
 											component="h1"
 											variant="h1"
 											align="center"
-											icon={faBook}
+											icon={faUserGraduate}
 										/>
 										<br />
 										My Profile

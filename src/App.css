@@ -5,8 +5,8 @@
 }
 
 body {
-	height: 100vh;
-	overflow: hidden;
+	min-height: 100vh;
+	overflow: auto;
 	background: #ece9e6; /* fallback for old browsers */
 	background: -webkit-linear-gradient(to bottom, #ffffff, #ece9e6); /* Chrome 10-25, Safari 5.1-6 */
 	background: linear-gradient(
