@@ -41,7 +41,7 @@ class UserForm extends React.Component {
 				<form
 					onSubmit={async e => {
 						e.preventDefault();
-						let success = await createEntity(this, this.getFormValues(), "user");
+						let success = await createEntity(this, this.getFormValues(), "signup");
 						if (success)
 							this.setState({
 								username: "",
@@ -65,7 +65,13 @@ class UserForm extends React.Component {
 					{role === "student" && renderDropdownSelect(this, "studentID", students)}
 					{role === "teacher" && renderDropdownSelect(this, "teacherID", teachers)}
 
-					<Button type="submit" size="large" variant="contained" className={classes.button} color="primary">
+					<Button
+						onClick={this.handleSubmit}
+						size="large"
+						variant="contained"
+						className={classes.button}
+						color="primary"
+					>
 						Add User
 					</Button>
 				</form>

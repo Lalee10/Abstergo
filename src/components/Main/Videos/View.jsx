@@ -6,6 +6,7 @@ import { withStyles } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
 import ReactPlayer from 'react-player'
 import PropTypes from 'prop-types';
+import axios from "axios";
 
 const styles = theme => ({
     mainGrid: {
@@ -25,6 +26,40 @@ const styles = theme => ({
 })
 
 class ViewVideo extends Component {
+
+    state = {
+        video: null
+    }
+
+    async componentDidMount(){
+        const videoData = (await (axios.get("/api/videos/" + this.props.match.params.id))).data
+        this.setState({video: videoData});
+        
+    }
+
+    renderVideo = () => {
+        if (!this.state.video){
+            return <div></div>
+        }
+        return (
+        <Grid className={this.props.classes.mainGrid} container spacing={16} justify="center" alignContent="center">
+                   
+            <ReactPlayer url={this.state.video.path} playing controls/>
+            <br />
+
+            <Grid className={this.props.classes.descriptionHeading} item container justify="center" alignItems="center" xs={12} lg ={12}>
+                Description:
+            </Grid>
+
+            <Grid className={this.props.classes.descriptionHeading} item container justify="center" alignItems="center" xs={12} lg ={12}>
+                {this.state.video.description}
+            </Grid>
+            
+                
+        </Grid>
+        );
+    }
+
     render() {
         return (
 
@@ -34,32 +69,19 @@ class ViewVideo extends Component {
                 <AppBar position="static" className={this.props.classes.appBar}>
                             <Toolbar>
                             <Typography variant="h6" color="inherit" align="center" noWrap>
-                                Video Name
+                                {this.state.video ? this.state.video.name : "Loading..."}
                             </Typography>
                             </Toolbar>
                 </AppBar>
-                <Grid className={this.props.classes.mainGrid} container spacing={16} justify="center" alignContent="center">
-                   
-                    <ReactPlayer url="/myvid.mp4" playing controls/>
-                    <br />
-
-                    <Grid className={this.props.classes.descriptionHeading} item container justify="center" alignItems="center" xs={12} lg ={12}>
-                        Description:
-                    </Grid>
-
-                    <Grid className={this.props.classes.descriptionHeading} item container justify="center" alignItems="center" xs={12} lg ={12}>
-                        This is the description of the video
-                    </Grid>
-                    
-                        
-                </Grid>
+    
+                {this.renderVideo()}
 
                 
             </div>
         );
     }
 }
-
+    
 ViewVideo.propTypes = {
     classes: PropTypes.object.isRequired
 };

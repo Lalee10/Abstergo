@@ -74,7 +74,7 @@ class TeacherForm extends React.Component {
 						{ value: "male", label: "Male" },
 						{ value: "female", label: "Female" },
 					])}
-					{renderFileUploadField(this, "profilePicture")}
+					{renderFileUploadField(this, "file")}
 
 					<Button
 						disabled={loading}

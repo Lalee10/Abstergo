@@ -10,6 +10,8 @@ import Paper from "@material-ui/core/Paper";
 import Typography from "@material-ui/core/Typography";
 import withStyles from "@material-ui/core/styles/withStyles";
 import LinearProgress from "@material-ui/core/LinearProgress";
+import axios from "axios";
+
 
 const styles = theme => ({
 	main: {
@@ -43,6 +45,7 @@ const styles = theme => ({
 	},
 });
 
+
 class Login extends Component {
 	state = {
 		username: "",
@@ -55,6 +58,29 @@ class Login extends Component {
 		const value = e.target.value;
 		this.setState({ [name]: value });
 	};
+
+	onSubmit = async (e) => {
+		this.setState({loading: true});
+		const data = {username: this.state.username, password: this.state.password}
+		console.log("DATA", data);
+		const response = await axios.post("/login", data);
+		console.log("RESPONSE", response);
+		console.log("ROLE", response.data.role);
+		if (response.status === 200) {
+			/**
+			 *  Set user state and redirect to dashboard
+			 */
+			this.props.appRef.setState({user: response.data}, ()=> {
+			this.props.history.push("/");
+			});
+			
+		}
+		else {
+			 /**
+			  *  Flash error
+			  */
+		}
+	}
 
 	render() {
 		const { classes } = this.props;
@@ -70,7 +96,7 @@ class Login extends Component {
 					<Typography component="h1" variant="h5">
 						Abstergo
 					</Typography>
-					<form onSubmit={() => console.log(username, password)} className={classes.form}>
+					<form className={classes.form}>
 						<FormControl margin="normal" required fullWidth>
 							<InputLabel htmlFor="username">Username</InputLabel>
 							<Input
@@ -91,7 +117,7 @@ class Login extends Component {
 								autoComplete="current-password"
 							/>
 						</FormControl>
-						<Button type="submit" fullWidth variant="contained" color="primary" className={classes.submit}>
+						<Button onClick={this.onSubmit} fullWidth variant="contained" color="primary" className={classes.submit}>
 							Log In
 						</Button>
 					</form>
@@ -102,4 +128,4 @@ class Login extends Component {
 	}
 }
 
-export default withStyles(styles)(Login);
+export default (withStyles(styles)(Login));
