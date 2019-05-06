@@ -10,7 +10,6 @@ import { CardMedia } from "@material-ui/core";
 import axios from "axios";
 import PropTypes from "prop-types";
 import { Link } from "react-router-dom";
-import { throws } from "assert";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPlus } from "@fortawesome/free-solid-svg-icons";
 import MyAppBar from "../../General/AppBar";
@@ -70,7 +69,7 @@ class VideoList extends Component {
 						<Link to={"/videos/" + video.videoID} className={this.props.classes.link}>
 							<Card>
 								<CardMedia className={this.props.cardMedia}>
-									<img src={video.thumbnail} style={imgStyle} />
+									<img alt={"video thumbnail"} src={video.thumbnail} style={imgStyle} />
 								</CardMedia>
 								<CardContent>
 									<Typography

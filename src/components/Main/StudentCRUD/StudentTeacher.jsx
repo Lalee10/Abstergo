@@ -35,13 +35,13 @@ class StudentTeacher extends Component {
 		if (response.status === 200) {
 			toast.success("Teacher assigned successfully");
 			await this.props.refreshData();
+			this.setState({ loading: false });
 			return true;
 		} else {
 			toast.error("There was an error assigning the teacher");
+			this.setState({ loading: false });
 			return false;
 		}
-
-		this.setState({ loading: false });
 	};
 
 	render() {

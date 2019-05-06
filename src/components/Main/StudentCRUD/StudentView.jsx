@@ -104,7 +104,7 @@ class StudentView extends Component {
 				className={this.props.classes.mainGrid}
 			>
 				<Grid item className={this.props.classes.imageGrid} xs={12} sm={12} lg={4}>
-					<img src={student.imagePath} style={imgStyle} />
+					<img alt={student.firstName + " profile picture"} src={student.imagePath} style={imgStyle} />
 				</Grid>
 
 				<Grid item xs={12} lg={8}>

@@ -9,6 +9,7 @@ import { withStyles } from "@material-ui/core/styles";
 import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
+	faUserPlus,
 	faCubes,
 	faUserGraduate,
 	faBook,
@@ -170,7 +171,7 @@ class Dashboard extends React.Component {
 													component="h1"
 													variant="h1"
 													align="center"
-													icon={faBook}
+													icon={faCubes}
 												/>
 												<br />
 												Tests

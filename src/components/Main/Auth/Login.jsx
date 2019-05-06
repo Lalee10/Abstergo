@@ -12,7 +12,6 @@ import withStyles from "@material-ui/core/styles/withStyles";
 import LinearProgress from "@material-ui/core/LinearProgress";
 import axios from "axios";
 
-
 const styles = theme => ({
 	main: {
 		width: "auto",
@@ -45,7 +44,6 @@ const styles = theme => ({
 	},
 });
 
-
 class Login extends Component {
 	state = {
 		username: "",
@@ -59,9 +57,9 @@ class Login extends Component {
 		this.setState({ [name]: value });
 	};
 
-	onSubmit = async (e) => {
-		this.setState({loading: true});
-		const data = {username: this.state.username, password: this.state.password}
+	onSubmit = async e => {
+		this.setState({ loading: true });
+		const data = { username: this.state.username, password: this.state.password };
 		console.log("DATA", data);
 		const response = await axios.post("/login", data);
 		console.log("RESPONSE", response);
@@ -70,21 +68,19 @@ class Login extends Component {
 			/**
 			 *  Set user state and redirect to dashboard
 			 */
-			this.props.appRef.setState({user: response.data}, ()=> {
-			this.props.history.push("/");
+			this.props.appRef.setState({ user: response.data }, () => {
+				this.props.history.push("/");
 			});
-			
+		} else {
+			/**
+			 *  Flash error
+			 */
 		}
-		else {
-			 /**
-			  *  Flash error
-			  */
-		}
-	}
+	};
 
 	render() {
 		const { classes } = this.props;
-		const { loading, username, password } = this.state;
+		const { loading } = this.state;
 
 		return (
 			<main className={classes.main}>
@@ -117,7 +113,13 @@ class Login extends Component {
 								autoComplete="current-password"
 							/>
 						</FormControl>
-						<Button onClick={this.onSubmit} fullWidth variant="contained" color="primary" className={classes.submit}>
+						<Button
+							onClick={this.onSubmit}
+							fullWidth
+							variant="contained"
+							color="primary"
+							className={classes.submit}
+						>
 							Log In
 						</Button>
 					</form>
@@ -128,4 +130,4 @@ class Login extends Component {
 	}
 }
 
-export default (withStyles(styles)(Login));
+export default withStyles(styles)(Login);

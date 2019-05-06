@@ -71,7 +71,7 @@ class TeacherView extends Component {
 				className={this.props.classes.mainGrid}
 			>
 				<Grid item className={this.props.classes.imageGrid} xs={12} sm={12} lg={4}>
-					<img src={teacher.imagePath} style={imgStyle} />
+					<img alt={teacher.firstName + " profile picture"} src={teacher.imagePath} style={imgStyle} />
 				</Grid>
 
 				<Grid item xs={12} lg={8}>
