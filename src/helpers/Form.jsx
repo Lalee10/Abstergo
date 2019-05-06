@@ -99,6 +99,26 @@ export const renderDropdownSelect = (context, name, options) => (
 	</TextField>
 );
 
+export const renderSelectCustomHandle = (context, name, options, handler) => (
+	<TextField
+		id={camelToKebab(name)}
+		name={name}
+		select
+		variant="outlined"
+		label={camelToTitle(name)}
+		className={context.props.classes.textField}
+		value={context.state[name]}
+		onChange={handler}
+		margin="normal"
+	>
+		{options.map(option => (
+			<MenuItem key={option.id} value={option.id}>
+				{option.label}
+			</MenuItem>
+		))}
+	</TextField>
+);
+
 export const renderRadioGroup = (context, name, radios) => (
 	<FormControl component="fieldset">
 		<RadioGroup

@@ -39,11 +39,15 @@ export const readEntities = async route => {
 export const readEntity = async (route, id) => {
 	try {
 		const response = await axios.get(`/api/${route}/${id}`);
-		if (!response) toast.error(`No ${route} found`);
-		return response;
+		if (response.status === 200) {
+			return response.data;
+		} else {
+			toast.error(`There was an error loading the ${route}`);
+			return {};
+		}
 	} catch (error) {
-		toast.error(`Read failed. Unable to connect to server`);
-		return false;
+		toast.error(`There was an error loading the ${route}`);
+		return {};
 	}
 };
 

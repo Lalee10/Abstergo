@@ -57,7 +57,7 @@ class StudentView extends Component {
 					className={this.props.classes.mainGrid}
 				>
 					<Grid item xs={12} sm={10} lg={3} justify="center" alignContent="center">
-						<img src="/elliot.jpg" style={imgStyle} />
+						<img alt="elliot from semantic ui" src="/elliot.jpg" style={imgStyle} />
 					</Grid>
 
 					<Grid item xs={12} sm={10} lg={7}>
@@ -115,7 +115,6 @@ class StudentView extends Component {
 							</Grid>
 
 							<Grid
-								item
 								className={this.props.classes.buttonGrid}
 								item
 								xs={12}
