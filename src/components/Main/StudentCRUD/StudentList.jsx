@@ -89,7 +89,7 @@ class StudentList extends Component {
 	}
 	render() {
 		return (
-			<div>
+			<React.Fragment>
 				<MyAppBar appBarTitle="View Students" />
 
 				<Grid
@@ -99,9 +99,11 @@ class StudentList extends Component {
 					alignContent="center"
 					className={this.props.classes.mainGrid}
 				>
-					<List className={this.props.classes.root}>{this.renderStudents()}</List>
+					<Fade in={true} timeout={1500}>
+						<List className={this.props.classes.root}>{this.renderStudents()}</List>
+					</Fade>
 				</Grid>
-			</div>
+			</React.Fragment>
 		);
 	}
 }

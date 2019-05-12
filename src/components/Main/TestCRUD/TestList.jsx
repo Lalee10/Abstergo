@@ -83,8 +83,8 @@ class TestList extends Component {
 
 	render() {
 		return (
-			<div>
-				<MyAppBar appBarTitle="Test Details" />
+			<React.Fragment>
+				<MyAppBar appBarTitle="Test List" />
 
 				<Grid
 					container
@@ -93,9 +93,11 @@ class TestList extends Component {
 					alignContent="center"
 					className={this.props.classes.mainGrid}
 				>
-					<List className={this.props.classes.root}>{this.renderTests()}</List>
+					<Fade in={true} timeout={1500}>
+						<List className={this.props.classes.root}>{this.renderTests()}</List>
+					</Fade>
 				</Grid>
-			</div>
+			</React.Fragment>
 		);
 	}
 }

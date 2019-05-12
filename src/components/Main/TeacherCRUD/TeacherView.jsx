@@ -52,9 +52,13 @@ class TeacherView extends Component {
 	};
 
 	async componentDidMount() {
+		await this.loadTeacher();
+	}
+
+	loadTeacher = async () => {
 		const teacher = (await axios.get("/api/teacher/" + this.props.match.params.id)).data;
 		this.setState({ teacher: teacher });
-	}
+	};
 
 	renderTeacher = () => {
 		const { teacher } = this.state;
@@ -116,7 +120,7 @@ class TeacherView extends Component {
 						</Grid>
 
 						<Grid item xs={6} lg={4}>
-							<StudentTest refreshData={this.loadStudent} />
+							<StudentTest refreshData={this.loadTeacher} />
 						</Grid>
 					</Grid>
 				</Grid>
