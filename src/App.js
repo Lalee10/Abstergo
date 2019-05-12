@@ -91,7 +91,7 @@ class App extends Component {
 								/>
 							</Switch>
 
-							<Route path="/videos" component={AuthHOC(VideoList, this)} exact />
+							<Route path="/videos" component={AuthHOC(VideoList, null, this)} exact />
 							<Switch>
 								<Route path="/videos/upload" component={AuthHOC(VideoUpload, "teacher", this)} exact />
 								<Route path="/videos/:id" component={VideoView} exact />

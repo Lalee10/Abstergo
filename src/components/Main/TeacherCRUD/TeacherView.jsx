@@ -5,7 +5,8 @@ import { Link } from "react-router-dom";
 import { withStyles } from "@material-ui/core/styles";
 import Button from "@material-ui/core/Button";
 import Card from "@material-ui/core/Card";
-import { CardContent } from "@material-ui/core";
+import CardContent from "@material-ui/core/CardContent";
+import Fade from "@material-ui/core/Fade";
 import PropTypes from "prop-types";
 import Dialog from "@material-ui/core/Dialog";
 import DialogActions from "@material-ui/core/DialogActions";
@@ -15,6 +16,7 @@ import DialogTitle from "@material-ui/core/DialogTitle";
 import axios from "axios";
 import { toast } from "react-toastify";
 import MyAppBar from "../../General/AppBar";
+import StudentTest from "../../Main/StudentCRUD/StudentTest";
 
 const styles = theme => ({
 	mainGrid: {
@@ -62,52 +64,63 @@ class TeacherView extends Component {
 		}
 
 		return (
-			<Grid
-				container
-				spacing={16}
-				justify="center"
-				alignContent="center"
-				alignItems="center"
-				className={this.props.classes.mainGrid}
-			>
-				<Grid item className={this.props.classes.imageGrid} xs={12} sm={12} lg={4}>
-					<img alt={teacher.firstName + " profile picture"} src={teacher.imagePath} style={imgStyle} />
-				</Grid>
+			<Fade in={true} timeout={1500}>
+				<Grid
+					container
+					spacing={16}
+					justify="center"
+					alignContent="center"
+					alignItems="center"
+					className={this.props.classes.mainGrid}
+				>
+					<Grid item className={this.props.classes.imageGrid} xs={12} sm={12} lg={4}>
+						<img alt={teacher.firstName + " profile picture"} src={teacher.imagePath} style={imgStyle} />
+					</Grid>
 
-				<Grid item xs={12} lg={8}>
-					<Card className={this.props.classes.infoCard}>
-						<CardContent>
-							<Typography component="h1" variant="h2" align="center" color="textPrimary" gutterBottom>
-								{teacher.firstName + " " + teacher.lastName}
-							</Typography>
-							<Typography component="h1" variant="h4" align="center" color="textPrimary" gutterBottom>
-								Gender: {teacher.gender}
-							</Typography>
-						</CardContent>
-					</Card>
-				</Grid>
+					<Grid item xs={12} lg={8}>
+						<Card className={this.props.classes.infoCard}>
+							<CardContent>
+								<Typography component="h1" variant="h2" align="center" color="textPrimary" gutterBottom>
+									{teacher.firstName + " " + teacher.lastName}
+								</Typography>
+								<Typography component="h1" variant="h4" align="center" color="textPrimary" gutterBottom>
+									Gender: {teacher.gender}
+								</Typography>
+							</CardContent>
+						</Card>
+					</Grid>
 
-				<Grid style={{ margin: "20px" }} container spacing={16} justify="space-evenly">
-					<Grid item xs={6} lg={4}>
-						<Link style={{ textDecoration: "none" }} to={`/teachers/form/${teacher.teacherID}`}>
-							<Button fullWidth className={this.props.classes.button} variant="contained" color="primary">
-								Edit
+					<Grid style={{ margin: "20px" }} container spacing={16} justify="space-evenly">
+						<Grid item xs={6} lg={4}>
+							<Link style={{ textDecoration: "none" }} to={`/teachers/form/${teacher.teacherID}`}>
+								<Button
+									fullWidth
+									className={this.props.classes.button}
+									variant="contained"
+									color="primary"
+								>
+									Edit
+								</Button>
+							</Link>
+						</Grid>
+						<Grid item xs={6} lg={4}>
+							<Button
+								fullWidth
+								onClick={this.openModal}
+								className={this.props.classes.button}
+								variant="contained"
+								color="secondary"
+							>
+								Delete
 							</Button>
-						</Link>
-					</Grid>
-					<Grid item xs={6} lg={4}>
-						<Button
-							fullWidth
-							onClick={this.openModal}
-							className={this.props.classes.button}
-							variant="contained"
-							color="secondary"
-						>
-							Delete
-						</Button>
+						</Grid>
+
+						<Grid item xs={6} lg={4}>
+							<StudentTest refreshData={this.loadStudent} />
+						</Grid>
 					</Grid>
 				</Grid>
-			</Grid>
+			</Fade>
 		);
 	};
 

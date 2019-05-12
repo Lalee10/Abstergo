@@ -1,0 +1,17 @@
+1. git clone https://github.com/Lalee10/Abstergo.git
+	- cd Abstergo
+	- npm install
+	- npm run build
+	- cd ..
+
+2. Make a new folder named API 
+3. cd API
+4. git clone https://github.com/DaniyalK123/Abstergo-API
+	- cd Abstergo-API
+	- paste the .env file
+	- npm install (if error occurs tell me)
+	- tsc
+	- npm start
+
+server will run on localhost:8080
+

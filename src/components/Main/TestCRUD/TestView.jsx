@@ -78,48 +78,74 @@ class TestView extends Component {
 			return <div />;
 		} else {
 			return (
-				<Grid
-					container
-					spacing={16}
-					justify="center"
-					alignContent="center"
-					alignItems="center"
-					className={this.props.classes.mainGrid}
-				>
-					<Grid item xs={12} lg={8}>
-						<Card>
-							<CardContent>
-								<Typography component="h1" variant="h2" align="center" color="textPrimary" gutterBottom>
-									{test.testName}
-								</Typography>
-								<Typography component="h1" variant="h5" align="center" color="textPrimary" gutterBottom>
-									Topic : {test.topic}
-								</Typography>
-								<Typography component="h1" variant="h5" align="center" color="textPrimary" gutterBottom>
-									Max Marks: {test.maxMarks}
-								</Typography>
-								<Typography component="h1" variant="h5" align="center" color="textPrimary" gutterBottom>
-									Number of Students: {test.students.length}
-								</Typography>
-							</CardContent>
-						</Card>
-					</Grid>
+				<Fade in={true} timeout={1500}>
+					<Grid
+						container
+						spacing={16}
+						justify="center"
+						alignContent="center"
+						alignItems="center"
+						className={this.props.classes.mainGrid}
+					>
+						<Grid item xs={12} lg={8}>
+							<Card>
+								<CardContent>
+									<Typography
+										component="h1"
+										variant="h2"
+										align="center"
+										color="textPrimary"
+										gutterBottom
+									>
+										{test.testName}
+									</Typography>
+									<Typography
+										component="h1"
+										variant="h5"
+										align="center"
+										color="textPrimary"
+										gutterBottom
+									>
+										Topic : {test.topic}
+									</Typography>
+									<Typography
+										component="h1"
+										variant="h5"
+										align="center"
+										color="textPrimary"
+										gutterBottom
+									>
+										Max Marks: {test.maxMarks}
+									</Typography>
+									<Typography
+										component="h1"
+										variant="h5"
+										align="center"
+										color="textPrimary"
+										gutterBottom
+									>
+										Number of Students: {test.students.length}
+									</Typography>
+								</CardContent>
+							</Card>
+						</Grid>
 
-					<Grid style={{ margin: "20px" }} container spacing={16} justify="center">
-						<Grid item xs={6} lg={3}>
-							<Link style={{ textDecoration: "none" }} to={`/tests/form/${test.testID}`}>
-								<Button fullWidth variant="contained" color="primary">
-									Edit
+						<Grid style={{ margin: "20px" }} container spacing={16} justify="center">
+							<Grid item xs={6} lg={3}>
+								<Link style={{ textDecoration: "none" }} to={`/tests/form/${test.testID}`}>
+									<Button fullWidth variant="contained" color="primary">
+										Edit
+									</Button>
+								</Link>
+							</Grid>
+							<Grid item xs={6} lg={3}>
+								<Button fullWidth onClick={this.openModal} variant="contained" color="secondary">
+									Delete
 								</Button>
-							</Link>
-						</Grid>
-						<Grid item xs={6} lg={3}>
-							<Button fullWidth onClick={this.openModal} variant="contained" color="secondary">
-								Delete
-							</Button>
+							</Grid>
 						</Grid>
 					</Grid>
-				</Grid>
+				</Fade>
 			);
 		}
 	};

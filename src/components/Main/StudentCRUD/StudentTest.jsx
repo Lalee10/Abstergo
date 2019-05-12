@@ -34,7 +34,11 @@ class StudentTest extends Component {
 
 		if (response.status === 200) {
 			toast.success("Test added successfully");
-			await this.props.refreshData();
+
+			if (this.props.refreshData) {
+				await this.props.refreshData();
+			}
+
 			this.setState({ loading: false });
 			return true;
 		} else {

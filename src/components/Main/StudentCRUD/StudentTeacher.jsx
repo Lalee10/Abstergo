@@ -8,16 +8,14 @@ import { toast } from "react-toastify";
 
 class StudentTeacher extends Component {
 	state = {
-		studentID: "",
+		studentID: this.props.studentID,
 		teacherID: "",
-		students: [],
 		teachers: [],
 		loading: true,
 	};
 
 	componentDidMount = async () => {
 		this.setState({
-			students: await readOptions("student"),
 			teachers: await readOptions("teacher"),
 			loading: false,
 		});
@@ -45,10 +43,9 @@ class StudentTeacher extends Component {
 	};
 
 	render() {
-		const { students, teachers, loading } = this.state;
+		const { teachers, loading } = this.state;
 		return (
-			<FormDialog buttonText="Add Teacher" loading={loading} onSubmit={this.handleSubmit} formTitle="Teachers">
-				{renderDropdownSelect(this, "studentID", students)}
+			<FormDialog buttonText="Assign Teacher" loading={loading} onSubmit={this.handleSubmit} formTitle="Teachers">
 				{renderDropdownSelect(this, "teacherID", teachers)}
 			</FormDialog>
 		);

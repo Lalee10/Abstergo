@@ -5,7 +5,9 @@ import Typography from "@material-ui/core/Typography";
 import { withStyles } from "@material-ui/core/styles";
 import Button from "@material-ui/core/Button";
 import Card from "@material-ui/core/Card";
-import { CardContent, Paper } from "@material-ui/core";
+import CardContent from "@material-ui/core/CardContent";
+import Paper from "@material-ui/core/Paper";
+import Fade from "@material-ui/core/Fade";
 import PropTypes from "prop-types";
 import Dialog from "@material-ui/core/Dialog";
 import DialogActions from "@material-ui/core/DialogActions";
@@ -20,7 +22,6 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faMarker, faUser } from "@fortawesome/free-solid-svg-icons";
 import { toast } from "react-toastify";
 import MyAppBar from "../../General/AppBar";
-import StudentTest from "./StudentTest";
 import StudentTeacher from "./StudentTeacher";
 
 const styles = theme => ({
@@ -95,96 +96,98 @@ class StudentView extends Component {
 		}
 
 		return (
-			<Grid
-				container
-				spacing={16}
-				justify="center"
-				alignContent="center"
-				alignItems="center"
-				className={this.props.classes.mainGrid}
-			>
-				<Grid item className={this.props.classes.imageGrid} xs={12} sm={12} lg={4}>
-					<img alt={student.firstName + " profile picture"} src={student.imagePath} style={imgStyle} />
-				</Grid>
+			<Fade in={true} timeout={1500}>
+				<Grid
+					container
+					spacing={16}
+					justify="center"
+					alignContent="center"
+					alignItems="center"
+					className={this.props.classes.mainGrid}
+				>
+					<Grid item className={this.props.classes.imageGrid} xs={12} sm={12} lg={4}>
+						<img alt={student.firstName + " profile picture"} src={student.imagePath} style={imgStyle} />
+					</Grid>
 
-				<Grid item xs={12} lg={8}>
-					<Card className={this.props.classes.infoCard}>
-						<CardContent>
-							<Typography component="h1" variant="h3" align="center" color="textPrimary" gutterBottom>
-								{student.firstName + " " + student.lastName}
-							</Typography>
-							<Typography component="h1" variant="h4" align="center" color="textPrimary" gutterBottom>
-								Grade: {student.grade}
-							</Typography>
-							<Typography component="h1" variant="h4" align="center" color="textPrimary" gutterBottom>
-								Age: {student.age}
-							</Typography>
-							<Typography component="h1" variant="h4" align="center" color="textPrimary" gutterBottom>
-								Gender: {student.gender}
-							</Typography>
-						</CardContent>
-					</Card>
-				</Grid>
+					<Grid item xs={12} lg={8}>
+						<Card className={this.props.classes.infoCard}>
+							<CardContent>
+								<Typography component="h1" variant="h3" align="center" color="textPrimary" gutterBottom>
+									{student.firstName + " " + student.lastName}
+								</Typography>
+								<Typography component="h1" variant="h4" align="center" color="textPrimary" gutterBottom>
+									Grade: {student.grade}
+								</Typography>
+								<Typography component="h1" variant="h4" align="center" color="textPrimary" gutterBottom>
+									Age: {student.age}
+								</Typography>
+								<Typography component="h1" variant="h4" align="center" color="textPrimary" gutterBottom>
+									Gender: {student.gender}
+								</Typography>
+							</CardContent>
+						</Card>
+					</Grid>
 
-				<Grid style={{ margin: "20px" }} container spacing={16} justify="space-evenly">
-					<Grid item xs={6} lg={3}>
-						<Link style={{ textDecoration: "none" }} to={`/students/form/${student.studentID}`}>
-							<Button fullWidth variant="contained" color="primary">
-								Edit
+					<Grid style={{ margin: "20px" }} container spacing={16} justify="space-evenly">
+						<Grid item xs={6} lg={4}>
+							<Link style={{ textDecoration: "none" }} to={`/students/form/${student.studentID}`}>
+								<Button fullWidth variant="contained" color="primary">
+									Edit
+								</Button>
+							</Link>
+						</Grid>
+						<Grid item xs={6} lg={4}>
+							<Button fullWidth onClick={this.openModal} variant="contained" color="secondary">
+								Delete
 							</Button>
-						</Link>
-					</Grid>
-					<Grid item xs={6} lg={3}>
-						<Button fullWidth onClick={this.openModal} variant="contained" color="secondary">
-							Delete
-						</Button>
-					</Grid>
-
-					<Grid item xs={6} lg={3}>
-						<StudentTest refreshData={this.loadStudent} />
+						</Grid>
+						{this.props.user.role === "admin" && (
+							<Grid item xs={6} lg={4}>
+								<StudentTeacher studentID={student.studentID} refreshData={this.loadStudent} />
+							</Grid>
+						)}
 					</Grid>
 
-					<Grid item xs={6} lg={3}>
-						<StudentTeacher refreshData={this.loadStudent} />
+					<Grid container justify="space-between">
+						<Grid item lg={4} xs={12}>
+							<FontAwesomeIcon icon={faMarker} /> Marks
+							<List>
+								{student.tests.map(test => {
+									return (
+										<Paper key={test.testID}>
+											<ListItem divider className={this.props.classes.testCard}>
+												<ListItemText
+													primary={test.testName}
+													secondary={
+														"Marks:    " +
+														test.StudentTest.obtainedMarks +
+														"/" +
+														test.maxMarks
+													}
+												/>
+											</ListItem>
+										</Paper>
+									);
+								})}
+							</List>
+						</Grid>
+						<Grid item lg={4} xs={12}>
+							<FontAwesomeIcon icon={faUser} /> Teacher
+							<List>
+								{student.teachers.map(teacher => {
+									return (
+										<Paper key={teacher.teacherID}>
+											<ListItem divider className={this.props.classes.testCard}>
+												<ListItemText primary={teacher.firstName + " " + teacher.lastName} />
+											</ListItem>
+										</Paper>
+									);
+								})}
+							</List>
+						</Grid>
 					</Grid>
 				</Grid>
-
-				<Grid container justify="space-between">
-					<Grid item lg={4} xs={12}>
-						<FontAwesomeIcon icon={faMarker} /> Marks
-						<List>
-							{student.tests.map(test => {
-								return (
-									<Paper>
-										<ListItem divider className={this.props.classes.testCard}>
-											<ListItemText
-												primary={test.testName}
-												secondary={
-													"Marks:    " + test.StudentTest.obtainedMarks + "/" + test.maxMarks
-												}
-											/>
-										</ListItem>
-									</Paper>
-								);
-							})}
-						</List>
-					</Grid>
-					<Grid item lg={4} xs={12}>
-						<FontAwesomeIcon icon={faUser} /> Teachers
-						<List>
-							{student.teachers.map(teacher => {
-								return (
-									<Paper>
-										<ListItem divider className={this.props.classes.testCard}>
-											<ListItemText primary={teacher.firstName + " " + teacher.lastName} />
-										</ListItem>
-									</Paper>
-								);
-							})}
-						</List>
-					</Grid>
-				</Grid>
-			</Grid>
+			</Fade>
 		);
 	};
 
