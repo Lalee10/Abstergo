@@ -58,7 +58,7 @@ class TestList extends Component {
 					<Link style={{ textDecoration: "none" }} to={"/tests/" + test.testID}>
 						<ListItem alignItems="flex-start" key={test.testID}>
 							<ListItemText
-								primary={test.Name}
+								primary={test.testName}
 								secondary={
 									<React.Fragment>
 										<Typography

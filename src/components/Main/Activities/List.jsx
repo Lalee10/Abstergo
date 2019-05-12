@@ -68,11 +68,13 @@ class ActivityList extends Component {
 							onClick={() =>
 								window.open(window.location.href.replace("/activities", "") + activity.path, "_blank")
 							}
-						>
 							>
 							<CardContent>
 								<Typography component="h1" variant="h3" align="center" color="textPrimary" gutterBottom>
 									{activity.name}
+								</Typography>
+								<Typography component="h1" variant="h6" align="center" color="textPrimary" gutterBottom>
+									{activity.description}
 								</Typography>
 							</CardContent>
 						</Card>
@@ -101,7 +103,7 @@ class ActivityList extends Component {
 				<AppBar position="static" className={this.props.classes.appBar}>
 					<Toolbar>
 						<Typography variant="h6" color="inherit" align="center" noWrap>
-							Activitys
+							Activities
 						</Typography>
 					</Toolbar>
 				</AppBar>
@@ -109,7 +111,7 @@ class ActivityList extends Component {
 				<Grid container spacing={16} justify="left" alignContent="left" className={this.props.classes.mainGrid}>
 					{this.props.user.role === "teacher" ? (
 						<Grid item lg={12} style={{ textAlign: "center" }}>
-							<Link to="/activity/upload" style={{ textDecoration: "none" }}>
+							<Link to="/activities/upload" style={{ textDecoration: "none" }}>
 								<Button variant="contained" color="primary">
 									<FontAwesomeIcon icon={faPlus} style={{ marginRight: "8px" }} />
 									Add New Activity

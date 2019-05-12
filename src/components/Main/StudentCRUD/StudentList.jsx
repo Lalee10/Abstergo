@@ -52,7 +52,7 @@ class StudentList extends Component {
 					<Link className={this.props.classes.link} to={"/students/" + student.studentID}>
 						<ListItem alignItems="flex-start">
 							<ListItemAvatar>
-								<Avatar src="/elliot.jpg" />
+								<Avatar src={student.imagePath} />
 							</ListItemAvatar>
 							<ListItemText
 								primary={student.firstName + " " + student.lastName}
