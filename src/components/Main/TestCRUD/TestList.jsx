@@ -54,37 +54,35 @@ class TestList extends Component {
 		}
 		return this.state.tests.map((test, index) => {
 			return (
-				<Fade in={true} timeout={500 * (index + 1)}>
-					<Link style={{ textDecoration: "none" }} to={"/tests/" + test.testID}>
-						<ListItem alignItems="flex-start" key={test.testID}>
-							<ListItemText
-								primary={test.Name}
-								secondary={
-									<React.Fragment>
-										<Typography
-											component="span"
-											className={this.props.classes.inline}
-											color="textPrimary"
-										>
-											Topic: {test.topic}
-										</Typography>
-									</React.Fragment>
-								}
-							/>
-							<Button className={this.props.classes.button} variant="contained" color="primary">
-								View
-							</Button>
-						</ListItem>
-					</Link>
-				</Fade>
+				<Link style={{ textDecoration: "none" }} to={"/tests/" + test.testID}>
+					<ListItem alignItems="flex-start" key={test.testID}>
+						<ListItemText
+							primary={test.testName}
+							secondary={
+								<React.Fragment>
+									<Typography
+										component="span"
+										className={this.props.classes.inline}
+										color="textPrimary"
+									>
+										Topic: {test.topic}
+									</Typography>
+								</React.Fragment>
+							}
+						/>
+						<Button className={this.props.classes.button} variant="contained" color="primary">
+							View
+						</Button>
+					</ListItem>
+				</Link>
 			);
 		});
 	};
 
 	render() {
 		return (
-			<div>
-				<MyAppBar appBarTitle="Test Details" />
+			<React.Fragment>
+				<MyAppBar appBarTitle="Test List" />
 
 				<Grid
 					container
@@ -93,9 +91,11 @@ class TestList extends Component {
 					alignContent="center"
 					className={this.props.classes.mainGrid}
 				>
-					<List className={this.props.classes.root}>{this.renderTests()}</List>
+					<Fade in={true} timeout={1500}>
+						<List className={this.props.classes.root}>{this.renderTests()}</List>
+					</Fade>
 				</Grid>
-			</div>
+			</React.Fragment>
 		);
 	}
 }

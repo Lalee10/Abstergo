@@ -19,6 +19,7 @@ import { faChartBar } from "@fortawesome/free-solid-svg-icons";
 import { Link } from "react-router-dom";
 import { toast } from "react-toastify";
 import MyAppBar from "../../General/AppBar";
+import StudentTest from "../../Main/StudentCRUD/StudentTest";
 
 function compare(a, b) {
 	if (a.obtainedMarks < b.obtainedMarks) {
@@ -56,6 +57,15 @@ class TestView extends Component {
 
 	closeModal = () => {
 		this.setState({ dialogOpen: false });
+	};
+
+	async componentDidMount() {
+		await this.loadTest();
+	}
+
+	loadTest = async () => {
+		const test = (await axios.get("/api/test/" + this.props.match.params.id)).data;
+		this.setState({ test: test });
 	};
 
 	handleDelete = async () => {
@@ -143,6 +153,9 @@ class TestView extends Component {
 									Delete
 								</Button>
 							</Grid>
+							<Grid item xs={6} lg={3}>
+								<StudentTest refreshData={this.loadTest} />
+							</Grid>
 						</Grid>
 					</Grid>
 				</Fade>
@@ -199,10 +212,6 @@ class TestView extends Component {
 		);
 	};
 
-	async componentDidMount() {
-		const test = (await axios.get("/api/test/" + this.props.match.params.id)).data;
-		this.setState({ test: test });
-	}
 	render() {
 		const { test } = this.state;
 		return (

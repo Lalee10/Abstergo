@@ -55,28 +55,25 @@ class TeacherList extends Component {
 		}
 		return this.state.teachers.map((teacher, index) => {
 			return (
-				<Fade in={true} timeout={500 * (index + 1)}>
-					<Link to={"/teachers/" + teacher.teacherID} style={{ textDecoration: "none" }}>
-						<ListItem alignItems="flex-start" key={teacher.teacherID}>
-							<ListItemAvatar>
-								<Avatar src={teacher.imagePath} />
-							</ListItemAvatar>
+				<Link to={"/teachers/" + teacher.teacherID} style={{ textDecoration: "none" }}>
+					<ListItem alignItems="flex-start" key={teacher.teacherID}>
+						<ListItemAvatar>
+							<Avatar src={teacher.imagePath} />
+						</ListItemAvatar>
 
-							<ListItemText primary={teacher.firstName + " " + teacher.lastName} />
-							<Button className={this.props.classes.button} variant="contained" color="primary">
-								{" "}
-								View{" "}
-							</Button>
-						</ListItem>
-					</Link>
-				</Fade>
+						<ListItemText primary={teacher.firstName + " " + teacher.lastName} />
+						<Button className={this.props.classes.button} variant="contained" color="primary">
+							View
+						</Button>
+					</ListItem>
+				</Link>
 			);
 		});
 	};
 
 	render() {
 		return (
-			<div>
+			<React.Fragment>
 				<MyAppBar appBarTitle="View Teachers" />
 
 				<Grid
@@ -86,9 +83,11 @@ class TeacherList extends Component {
 					alignContent="center"
 					className={this.props.classes.mainGrid}
 				>
-					<List className={this.props.classes.root}>{this.renderTeachers()}</List>
+					<Fade in={true} timeout={1500}>
+						<List className={this.props.classes.root}>{this.renderTeachers()}</List>
+					</Fade>
 				</Grid>
-			</div>
+			</React.Fragment>
 		);
 	}
 }

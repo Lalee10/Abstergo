@@ -51,7 +51,12 @@ class StudentTest extends Component {
 	render() {
 		const { students, tests, loading } = this.state;
 		return (
-			<FormDialog buttonText="Add Test" loading={loading} onSubmit={this.handleSubmit} formTitle="Student Test">
+			<FormDialog
+				buttonText="Add Student Test"
+				loading={loading}
+				onSubmit={this.handleSubmit}
+				formTitle="Student Test"
+			>
 				{renderDropdownSelect(this, "studentID", students)}
 				{renderDropdownSelect(this, "testID", tests)}
 				{renderNumberField(this, "obtainedMarks")}

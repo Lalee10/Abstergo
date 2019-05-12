@@ -48,33 +48,30 @@ class StudentList extends Component {
 		}
 		return this.state.students.map((student, index) => {
 			return (
-				<Fade>
-					<Link className={this.props.classes.link} to={"/students/" + student.studentID}>
-						<ListItem alignItems="flex-start">
-							<ListItemAvatar>
-								<Avatar src="/elliot.jpg" />
-							</ListItemAvatar>
-							<ListItemText
-								primary={student.firstName + " " + student.lastName}
-								secondary={
-									<React.Fragment>
-										<Typography
-											component="span"
-											className={this.props.classes.inline}
-											color="textPrimary"
-										>
-											Grade: {student.grade}
-										</Typography>
-									</React.Fragment>
-								}
-							/>
-							<Button className={this.props.classes.button} variant="contained" color="primary">
-								{" "}
-								View{" "}
-							</Button>
-						</ListItem>
-					</Link>
-				</Fade>
+				<Link className={this.props.classes.link} to={"/students/" + student.studentID}>
+					<ListItem alignItems="flex-start">
+						<ListItemAvatar>
+							<Avatar src={student.imagePath} />
+						</ListItemAvatar>
+						<ListItemText
+							primary={student.firstName + " " + student.lastName}
+							secondary={
+								<React.Fragment>
+									<Typography
+										component="span"
+										className={this.props.classes.inline}
+										color="textPrimary"
+									>
+										Grade: {student.grade}
+									</Typography>
+								</React.Fragment>
+							}
+						/>
+						<Button className={this.props.classes.button} variant="contained" color="primary">
+							View
+						</Button>
+					</ListItem>
+				</Link>
 			);
 		});
 	};
@@ -89,7 +86,7 @@ class StudentList extends Component {
 	}
 	render() {
 		return (
-			<div>
+			<React.Fragment>
 				<MyAppBar appBarTitle="View Students" />
 
 				<Grid
@@ -99,9 +96,11 @@ class StudentList extends Component {
 					alignContent="center"
 					className={this.props.classes.mainGrid}
 				>
-					<List className={this.props.classes.root}>{this.renderStudents()}</List>
+					<Fade in={true} timeout={1500}>
+						<List className={this.props.classes.root}>{this.renderStudents()}</List>
+					</Fade>
 				</Grid>
-			</div>
+			</React.Fragment>
 		);
 	}
 }
